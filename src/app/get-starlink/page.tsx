@@ -1,13 +1,12 @@
 "use client";
 
-import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
 
-// Figma asset — earth + satellite 3D illustration
-// (Hosted on Figma MCP asset server; valid 7 days from generation)
+// Figma assets — node 19:31 (Get Starlink page) — expires 7 days from 2026-04-01
 const EARTH_SATELLITE_URL =
-  "https://www.figma.com/api/mcp/asset/7b8bee9d-73ec-4b0b-90d3-d3f416e11894";
+  "https://www.figma.com/api/mcp/asset/e09eb66d-af29-4c03-9200-d70daf8909f7";
+const SIGNAL_ICON_URL =
+  "https://www.figma.com/api/mcp/asset/0f427e74-9006-4de1-9bff-2ea6611323ff";
 
 export default function GetStarlinkPage() {
   const [address, setAddress] = useState("");
@@ -15,13 +14,14 @@ export default function GetStarlinkPage() {
   function handleUseCurrentLocation() {
     if (!navigator.geolocation) return;
     navigator.geolocation.getCurrentPosition((pos) => {
-      setAddress(`${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`);
+      setAddress(
+        `${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`
+      );
     });
   }
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    // Availability check logic goes here
     console.log("Checking availability for:", address);
   }
 
@@ -30,120 +30,120 @@ export default function GetStarlinkPage() {
       className="hero-bg relative w-full overflow-hidden"
       style={{ minHeight: "100dvh" }}
     >
-      {/* ── Earth + satellite illustration ──────────────────────────────
-          Figma: left=214, top=128, w=1408, h=725 on 1512×982 canvas  */}
+      {/* ── Earth + satellite — same canvas geometry as home page ───────
+          Figma: left=214 top=128 w=1408 h=725 on 1512×982 canvas
+          Globe bleeds behind the glass card's right edge (z-order: earth
+          is earlier in DOM → lower z-index than the card section)       */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute"
+        className="pointer-events-none absolute anim-globe globe-wrap"
         style={{
-          left: "14.16%",
-          top: "13.03%",
-          width: "93.12%",
-          height: "73.83%",
+          left: "14.15vw",
+          top: "13vh",
+          width: "93.12vw",
+          height: "73.83vh",
         }}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={EARTH_SATELLITE_URL}
           alt=""
-          className="size-full object-cover"
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
         />
       </div>
 
-      {/* ── Page title ──────────────────────────────────────────────────
-          Figma: left=90, top=60, 64px Sansation Bold                 */}
-      <header
-        className="absolute flex items-center justify-between"
-        style={{ left: 0, right: 0, top: 38, padding: "0 90px" }}
+      {/* ── "Get Starlink" page title — Figma: Sansation Bold 64px, left=90, top=60 */}
+      <h1
+        className="absolute anim-text"
+        style={{
+          left: "5.95vw",
+          top: "6.1vh",
+          fontFamily:
+            "var(--font-barlow), 'Arial Black', 'Trebuchet MS', sans-serif",
+          fontSize: "clamp(36px, 4.23vw, 64px)",
+          fontWeight: 800,
+          letterSpacing: "-0.5px",
+          color: "#000",
+          lineHeight: 1,
+          userSelect: "none",
+        }}
       >
-        <Link
-          href="/"
-          className="select-none text-black"
-          style={{
-            fontFamily:
-              "var(--font-barlow), 'Arial Black', 'Trebuchet MS', sans-serif",
-            fontSize: 64,
-            fontWeight: 800,
-            lineHeight: 1,
-            letterSpacing: "-0.5px",
-            marginTop: 22,
-            textDecoration: "none",
-          }}
-        >
-          Get Starlink
-        </Link>
+        Get Starlink
+      </h1>
 
-        {/* Starlink logo — Figma: top-right at left=1327, top=31
-            1512-1327-159 = 26px from right; logo w=159, h=87         */}
-        <div
-          className="relative shrink-0 opacity-90"
-          style={{ width: 120, height: 80, marginTop: 0 }}
-        >
-          <Image
-            src="/starlink-logo.png"
-            alt="Starlink"
-            fill
-            className="object-contain"
-            priority
-          />
-        </div>
-      </header>
+      {/* ── Signal icon only — Figma: top-right at left=1327, top=31 ── */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={SIGNAL_ICON_URL}
+        alt=""
+        className="absolute anim-text"
+        style={{
+          right: "clamp(16px, 1.72vw, 26px)",
+          top: "3.16vh",
+          width: "clamp(60px, 7.74vw, 117px)",
+          height: "auto",
+          opacity: 0.9,
+        }}
+      />
 
       {/* ── Glass card ──────────────────────────────────────────────────
-          Figma: left=83, top=211, w=682, padding=10px
-          Inner panel: h=587, glass effect                            */}
+          Figma: outer wrapper left=83, top=211, w=682, padding=10px
+          Inner glass panel: h=587, glassmorphism
+          Globe bleeds behind the right edge — earth is BEHIND this card */}
       <section
-        className="absolute"
-        style={{ left: 83, top: 211, width: 682, padding: 10 }}
+        className="absolute anim-text-d1 gs-card-wrap"
+        style={{
+          left: "5.49vw",
+          top: "21.49vh",
+          width: "clamp(340px, 45.11vw, 682px)",
+          padding: 10,
+        }}
       >
         <div
           className="glass-card"
-          style={{ height: 587, position: "relative", overflow: "hidden" }}
+          style={{ height: 587, position: "relative" }}
         >
-          {/* Card content positioned exactly as in Figma
-              Figma absolute positions are relative to page;
-              offset by card origin (83+10=93, 211+10=221)            */}
-
-          {/* Heading — Figma: left=135, top=253 → 135-93=42, 253-221=32 */}
+          {/* ── Card heading — Figma: Satoshi Medium 30px, left=135, top=253
+              Offset from card origin (83+10=93, 211+10=221): 42, 32    */}
           <h2
             style={{
               fontFamily: "Satoshi, 'DM Sans', 'Inter', sans-serif",
-              fontSize: 30,
+              fontSize: "clamp(20px, 1.98vw, 30px)",
               fontWeight: 500,
               color: "#1a1a1a",
               position: "absolute",
               left: 42,
               top: 32,
-              maxWidth: 560,
+              maxWidth: "80%",
               lineHeight: 1.3,
             }}
           >
             Where will you use Starlink?
           </h2>
 
-          {/* Subtitle — Figma: left=135, top=323 → 42, 102 */}
+          {/* ── Subtitle — Figma: Satoshi Medium 20px, left=135, top=323 → 42, 102 */}
           <p
             style={{
               fontFamily: "Satoshi, 'DM Sans', 'Inter', sans-serif",
-              fontSize: 20,
+              fontSize: "clamp(14px, 1.32vw, 20px)",
               fontWeight: 500,
               color: "rgba(26, 26, 26, 0.85)",
               position: "absolute",
               left: 42,
               top: 102,
-              maxWidth: 420,
+              maxWidth: "85%",
               lineHeight: 1.5,
             }}
           >
             Enter your location to check availability and get started.
           </p>
 
-          {/* Address input — Figma: left=135, top=398 → 42, 177
-              w=376, h=38                                             */}
+          {/* ── Form — Figma: input left=135, top=398 → offset 42, 177 ── */}
           <form
             onSubmit={handleSubmit}
             style={{ position: "absolute", left: 42, top: 177 }}
           >
+            {/* Address input — Figma: glass blur, w=376, h=38 */}
             <input
               className="glass-input"
               type="text"
@@ -152,26 +152,24 @@ export default function GetStarlinkPage() {
               onChange={(e) => setAddress(e.target.value)}
               style={{
                 fontFamily: "Satoshi, 'DM Sans', 'Inter', sans-serif",
-                fontSize: 20,
+                fontSize: "clamp(14px, 1.32vw, 20px)",
                 fontWeight: 500,
                 color: "rgba(26, 26, 26, 0.85)",
-                width: 376,
+                width: "clamp(240px, 24.87vw, 376px)",
                 height: 38,
                 padding: "0 16px",
                 display: "block",
               }}
             />
 
-            {/* "Use my current location" — Figma: left=168, top=433
-                offset from input left (42): 168-93=75 → ~33px from input
-                offset from input top: 433-221=212, input at 177 → 35px below */}
+            {/* "Use my current location" — Figma: pin icon + text, top=433 → 35px below input */}
             <button
               type="button"
               onClick={handleUseCurrentLocation}
               style={{
                 display: "flex",
                 alignItems: "center",
-                gap: 8,
+                gap: 6,
                 marginTop: 14,
                 background: "none",
                 border: "none",
@@ -181,13 +179,11 @@ export default function GetStarlinkPage() {
                 fontSize: 14,
                 fontWeight: 500,
                 color: "rgba(26, 26, 26, 0.85)",
-                opacity: 1,
                 transition: "opacity 0.2s ease",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.65")}
+              onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.6")}
               onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
             >
-              {/* Location pin icon (inline SVG — matches Figma icon) */}
               <svg
                 width="14"
                 height="14"
@@ -200,13 +196,13 @@ export default function GetStarlinkPage() {
               Use my current location
             </button>
 
-            {/* Check availability CTA */}
+            {/* CTA button */}
             <button
               type="submit"
               style={{
                 marginTop: 32,
                 padding: "12px 28px",
-                background: "rgba(26, 26, 26, 0.85)",
+                background: "rgba(26, 26, 26, 0.9)",
                 color: "#F7F6F2",
                 border: "none",
                 borderRadius: 8,
@@ -225,7 +221,7 @@ export default function GetStarlinkPage() {
               }}
               onMouseLeave={(e) => {
                 (e.currentTarget as HTMLButtonElement).style.background =
-                  "rgba(26,26,26,0.85)";
+                  "rgba(26,26,26,0.9)";
                 (e.currentTarget as HTMLButtonElement).style.transform =
                   "translateY(0)";
               }}

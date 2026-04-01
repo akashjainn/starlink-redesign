@@ -14,16 +14,19 @@
   padding: 0;
 }
 
-html,
-body {
+html {
   height: 100%;
   overflow-x: hidden;
+  color-scheme: light; /* prevent browser dark-mode from inverting the palette */
 }
 
 body {
+  height: 100%;
+  overflow-x: hidden;
   font-family: 'Satoshi', 'DM Sans', 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #F7F6F2; /* fallback while gradient loads */
 }
 
 /* ─── Hero background gradient ──────────────────────────────────────── */
@@ -56,7 +59,6 @@ body {
 }
 
 /* ─── Glass input ───────────────────────────────────────────────────── */
-/* Figma specs: backdrop-blur 6.3px, bg rgba white 0.15, border white 0.1 */
 .glass-input {
   backdrop-filter: blur(6.3px);
   -webkit-backdrop-filter: blur(6.3px);
@@ -102,4 +104,71 @@ body {
 
 .nav-link:hover {
   opacity: 0.7;
+}
+
+/* ─── Entrance animations ───────────────────────────────────────────── */
+@keyframes fade-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.anim-text {
+  animation: fade-slide-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.anim-text-d1 {
+  animation: fade-slide-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+}
+.anim-text-d2 {
+  animation: fade-slide-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.24s both;
+}
+.anim-text-d3 {
+  animation: fade-slide-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.36s both;
+}
+
+.anim-globe {
+  animation: fade-scale-in 1.1s cubic-bezier(0.22, 1, 0.36, 1) 0.1s both;
+}
+
+/* ─── Responsive: tablet (≤ 768px) ─────────────────────────────────── */
+@media (max-width: 768px) {
+  .globe-wrap {
+    left: -5vw !important;
+    top: auto !important;
+    bottom: -5% !important;
+    width: 140vw !important;
+    height: auto !important;
+    opacity: 0.5;
+  }
+
+  .hero-left {
+    left: 6vw !important;
+    top: 5vh !important;
+  }
+
+  .hero-logo-row {
+    left: 6vw !important;
+    top: 4vh !important;
+  }
+
+  .gs-card-wrap {
+    left: 4vw !important;
+    width: 90vw !important;
+  }
 }
