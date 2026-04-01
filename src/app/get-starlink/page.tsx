@@ -114,7 +114,8 @@ export default function GetStarlinkPage() {
               position: "absolute",
               left: 42,
               top: 32,
-              whiteSpace: "nowrap",
+              maxWidth: 560,
+              lineHeight: 1.3,
             }}
           >
             Where will you use Starlink?

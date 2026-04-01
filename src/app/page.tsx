@@ -50,7 +50,7 @@ export default function HomePage() {
         {/* Starlink satellite/wifi icon from user's brand assets */}
         <div
           className="relative ml-5 shrink-0 opacity-90"
-          style={{ width: 90, height: 90 }}
+          style={{ width: 181, height: 99 }}
         >
           <Image
             src="/starlink-logo.png"
