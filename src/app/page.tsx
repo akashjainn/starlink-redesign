@@ -6,9 +6,11 @@ import SplineScene from "@/components/SplineScene";
 
 export default function HomePage() {
   const splineWrapRef = useRef<HTMLDivElement>(null);
+  const mountTimeRef = useRef<number>(Date.now());
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent<HTMLElement>) => {
+      if (Date.now() - mountTimeRef.current < 1200) return;
       const rect = e.currentTarget.getBoundingClientRect();
       const dx = (e.clientX - rect.left - rect.width / 2) * 0.015;
       const dy = (e.clientY - rect.top - rect.height / 2) * 0.015;
