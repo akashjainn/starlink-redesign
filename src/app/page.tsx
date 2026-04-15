@@ -1,149 +1,251 @@
 "use client";
 
-import Link from "next/link";
-import { useRef, useCallback } from "react";
-import SplineScene from "@/components/SplineScene";
+import { useState } from "react";
+import ThreeScene from "@/components/ThreeScene";
 
 export default function HomePage() {
-  const splineWrapRef = useRef<HTMLDivElement>(null);
-  const mountTimeRef = useRef<number>(Date.now());
+  const [address, setAddress] = useState("");
 
-  const handleMouseMove = useCallback(
-    (e: React.MouseEvent<HTMLElement>) => {
-      if (Date.now() - mountTimeRef.current < 1200) return;
-      const rect = e.currentTarget.getBoundingClientRect();
-      const dx = (e.clientX - rect.left - rect.width / 2) * 0.015;
-      const dy = (e.clientY - rect.top - rect.height / 2) * 0.015;
-      if (splineWrapRef.current) {
-        splineWrapRef.current.style.transform = `translate(${dx}px, ${dy}px)`;
-      }
-    },
-    []
-  );
+  function handleUseCurrentLocation() {
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition((pos) => {
+      setAddress(
+        `${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`
+      );
+    });
+  }
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+  }
 
   return (
-    <main
-      className="hero-bg relative w-full overflow-hidden"
-      style={{ minHeight: "100dvh" }}
-      onMouseMove={handleMouseMove}
-    >
-      {/* ── Spline earth + satellite ─────────────────────────────────────
-          Figma canvas: 1512 × 982
-          Figma node:   left=214 top=128 w=1408 h=725
-          Converted:    14.15vw / 13vh / 93.12vw / 73.83vh              */}
-      <div
-        ref={splineWrapRef}
-        aria-hidden="true"
-        className="pointer-events-none absolute anim-globe globe-wrap spline-parallax"
-        style={{
-          left: "14.15vw",
-          top: "13vh",
-          width: "93.12vw",
-          height: "73.83vh",
-        }}
-      >
-        <SplineScene />
-      </div>
+    <>
+      {/* Fixed 3D canvas behind all content */}
+      <ThreeScene />
 
-      {/* ── STARLINK wordmark + custom signal icon ───────────────────────
-          Figma: left=90, top=60                                         */}
-      <div
-        className="absolute flex items-center anim-text hero-logo-row"
-        style={{ left: "5.95vw", top: "6.1vh" }}
-      >
-        <span
-          style={{
-            fontFamily:
-              "var(--font-barlow), 'Arial Black', 'Trebuchet MS', sans-serif",
-            fontSize: "clamp(36px, 4.23vw, 64px)",
-            fontWeight: 800,
-            letterSpacing: "-0.5px",
-            color: "#000",
-            lineHeight: 1,
-            userSelect: "none",
-          }}
+      {/* ═══════════ PAGE 1 — HOME ═══════════ */}
+      <section id="page-home" className="page page-home">
+        {/* Brand row: STARLINK wordmark + logo mark */}
+        <div
+          className="brand-row anim-text"
+          style={{ position: "absolute", top: 60, left: 90 }}
         >
-          STARLINK
-        </span>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/starlink-icon.svg"
-          alt="Starlink signal icon"
-          style={{
-            marginLeft: "clamp(10px, 1.06vw, 16px)",
-            width: "clamp(60px, 7.74vw, 117px)",
-            height: "auto",
-          }}
-        />
-      </div>
+          <span className="wordmark">STARLINK</span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            className="logo-mark"
+            src="/starlink-icon.svg"
+            alt="Starlink mark"
+          />
+        </div>
 
-      {/* ── Hero content ─────────────────────────────────────────────────
-          Figma: h1 left=90, top=176 → 5.95vw / 17.92vh
-          Subheading: top=358 → 44px gap after h1
-          Nav: top=469 → 70px gap after subheading                      */}
-      <section
-        className="absolute flex flex-col hero-left"
-        style={{ left: "5.95vw", top: "17.92vh" }}
-        aria-label="Hero"
-      >
+        {/* Headline */}
         <h1
           className="anim-text-d1"
           style={{
-            fontFamily: "Satoshi, 'DM Sans', 'Inter', sans-serif",
-            fontSize: "clamp(28px, 3.44vw, 52px)",
+            position: "absolute",
+            top: 176,
+            left: 90,
+            width: 456,
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "clamp(36px, 3.5vw, 52px)",
             fontWeight: 700,
-            lineHeight: 1.27,
-            color: "#000",
-            maxWidth: "clamp(300px, 30.16vw, 456px)",
+            lineHeight: 1.15,
+            color: "#1a1a1a",
           }}
         >
-          Stay connected.
-          <br />
-          Wherever you go.
+          Stay connected.<br />Wherever you go.
         </h1>
 
+        {/* Subline */}
         <p
           className="anim-text-d2"
           style={{
-            fontFamily: "Satoshi, 'DM Sans', 'Inter', sans-serif",
-            fontSize: "clamp(16px, 1.85vw, 28px)",
+            position: "absolute",
+            top: 358,
+            left: 90,
+            width: 591,
+            fontFamily: "'DM Sans', sans-serif",
+            fontSize: "clamp(18px, 1.9vw, 28px)",
             fontWeight: 400,
-            color: "#000",
-            maxWidth: "clamp(300px, 39.1vw, 591px)",
-            marginTop: "clamp(24px, 4.49vh, 44px)",
-            lineHeight: 1.46,
+            color: "#1a1a1a",
+            lineHeight: 1.4,
           }}
         >
           Built for travelers, explorers, and life off the grid.
         </p>
 
+        {/* Nav link stack */}
         <nav
-          className="flex flex-col anim-text-d3"
-          style={{ marginTop: "clamp(32px, 7.13vh, 70px)" }}
-          aria-label="Primary"
+          className="anim-text-d3"
+          style={{
+            position: "absolute",
+            top: 469,
+            left: 90,
+            display: "flex",
+            flexDirection: "column",
+          }}
+          aria-label="Primary actions"
         >
-          {[
-            { label: "Get Starlink", href: "/get-starlink" },
-            { label: "Learn More",   href: "#"             },
-            { label: "Q/A",          href: "#"             },
-          ].map(({ label, href }, i) => (
-            <Link
-              key={label}
-              href={href}
-              className="nav-link"
-              style={{
-                fontFamily: "Satoshi, 'DM Sans', 'Inter', sans-serif",
-                fontSize: "clamp(20px, 2.12vw, 32px)",
-                fontWeight: 500,
-                lineHeight: 1.34,
-                marginTop: i === 0 ? 0 : "clamp(8px, 1.32vw, 20px)",
-              }}
-            >
-              {label}
-            </Link>
-          ))}
+          <a href="#page-get" className="nav-link">Get Starlink</a>
+          <a href="#page-plans" className="nav-link">Learn More</a>
+          <a href="#faq" className="nav-link">Q/A</a>
         </nav>
+
+        {/* Scroll indicator */}
+        <div className="scroll-indicator">
+          <svg width="1" height="32">
+            <line x1="0.5" y1="0" x2="0.5" y2="32" stroke="#1a1a1a" strokeWidth="1" />
+          </svg>
+          <span>Scroll</span>
+        </div>
       </section>
-    </main>
+
+      {/* ═══════════ PAGE 2 — GET STARLINK ═══════════ */}
+      <section id="page-get" className="page page-get">
+        <div className="brand-row-between">
+          <span className="wordmark">Get Starlink</span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="logo-mark" src="/starlink-icon.svg" alt="Starlink mark" />
+        </div>
+
+        <div className="glass-card">
+          <h2
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 30,
+              fontWeight: 600,
+              color: "#1a1a1a",
+              marginBottom: 14,
+              lineHeight: 1.2,
+            }}
+          >
+            Where will you use Starlink?
+          </h2>
+
+          <p
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 20,
+              fontWeight: 500,
+              color: "rgba(26,26,26,0.75)",
+              marginBottom: 40,
+              lineHeight: 1.45,
+            }}
+          >
+            Enter your location to check availability and get started.
+          </p>
+
+          <form onSubmit={handleSubmit}>
+            <input
+              className="address-field"
+              type="text"
+              placeholder="Enter address"
+              value={address}
+              onChange={(e) => setAddress(e.target.value)}
+            />
+
+            <button
+              type="button"
+              onClick={handleUseCurrentLocation}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 6,
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 14,
+                fontWeight: 500,
+                color: "rgba(26,26,26,0.75)",
+                cursor: "pointer",
+                background: "none",
+                border: "none",
+                padding: 0,
+                transition: "opacity 0.15s",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.6")}
+              onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(26,26,26,0.75)" aria-hidden="true">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+              </svg>
+              Use my current location
+            </button>
+          </form>
+
+          <div style={{ flex: 1 }} />
+          <a href="#" className="btn-check">Check Availability</a>
+        </div>
+      </section>
+
+      {/* ═══════════ PAGE 3 — CHOOSE A PLAN ═══════════ */}
+      <section id="page-plans" className="page page-plans">
+        <div className="brand-row-between">
+          <span className="wordmark">Choose a Plan</span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="logo-mark" src="/starlink-icon.svg" alt="Starlink mark" />
+        </div>
+
+        <div className="plans-grid">
+          {/* Roam */}
+          <div className="plan-card">
+            <div className="plan-name">Roam</div>
+            <div className="plan-price"><sup>$</sup>150</div>
+            <div className="plan-period">/ month · $599 hardware</div>
+            <div className="plan-hr" />
+            <ul className="plan-feats">
+              <li>Up to 100 Mbps</li>
+              <li>Pause anytime</li>
+              <li>Single country</li>
+              <li>Standard priority</li>
+            </ul>
+            <a href="#" className="plan-btn">Get Roam</a>
+          </div>
+
+          {/* Expedition — featured */}
+          <div className="plan-card featured">
+            <div className="plan-chip">Most Popular</div>
+            <div className="plan-name">Expedition</div>
+            <div className="plan-price"><sup>$</sup>250</div>
+            <div className="plan-period">/ month · $599 hardware</div>
+            <div className="plan-hr" />
+            <ul className="plan-feats">
+              <li>Up to 220 Mbps</li>
+              <li>Global roaming</li>
+              <li>Priority access data</li>
+              <li>24/7 trail support</li>
+            </ul>
+            <a href="#" className="plan-btn">Get Expedition</a>
+          </div>
+
+          {/* Summit */}
+          <div className="plan-card">
+            <div className="plan-name">Summit</div>
+            <div className="plan-price"><sup>$</sup>500</div>
+            <div className="plan-period">/ month · $2,500 hardware</div>
+            <div className="plan-hr" />
+            <ul className="plan-feats">
+              <li>Up to 350 Mbps</li>
+              <li>Maritime + aviation</li>
+              <li>Enterprise SLA</li>
+              <li>Dedicated manager</li>
+            </ul>
+            <a href="#" className="plan-btn">Get Summit</a>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════ FOOTER ═══════════ */}
+      <footer className="site-footer">
+        <div className="footer-brand">
+          STARLINK
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/starlink-icon.svg" alt="" />
+        </div>
+        <div className="footer-copy">
+          © 2025 Space Exploration Technologies Corp. — Rebrand by Akash Jain
+        </div>
+      </footer>
+    </>
   );
 }
