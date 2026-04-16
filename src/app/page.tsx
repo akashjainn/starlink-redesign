@@ -29,13 +29,13 @@ export default function HomePage() {
         {/* Brand row: STARLINK wordmark + logo mark */}
         <div
           className="brand-row anim-text"
-          style={{ position: "absolute", top: 60, left: 90 }}
+          style={{ position: "absolute", top: 60, left: 90, display: "flex", alignItems: "center", gap: 18 }}
         >
           <span className="wordmark">STARLINK</span>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className="logo-mark"
-            src="/starlink-icon.svg"
+            src="/starlink-logo-new.svg"
             alt="Starlink mark"
           />
         </div>
@@ -107,7 +107,7 @@ export default function HomePage() {
         <div className="brand-row-between">
           <span className="wordmark">Get Starlink</span>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="logo-mark" src="/starlink-icon.svg" alt="Starlink mark" />
+          <img className="logo-mark" src="/starlink-logo-new.svg" alt="Starlink mark" />
         </div>
 
         <div className="glass-card">
@@ -183,7 +183,7 @@ export default function HomePage() {
         <div className="brand-row-between">
           <span className="wordmark">Choose a Plan</span>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="logo-mark" src="/starlink-icon.svg" alt="Starlink mark" />
+          <img className="logo-mark" src="/starlink-logo-new.svg" alt="Starlink mark" />
         </div>
 
         <div className="plans-grid">
@@ -240,7 +240,7 @@ export default function HomePage() {
         <div className="footer-brand">
           STARLINK
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/starlink-icon.svg" alt="" />
+          <img src="/starlink-logo-new.svg" alt="" />
         </div>
         <div className="footer-copy">
           © 2025 Space Exploration Technologies Corp. — Rebrand by Akash Jain
