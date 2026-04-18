@@ -112,7 +112,7 @@ export default function ThreeScene() {
 
     /* ── EARTH — 3D object-space noise, no UV seam ── */
     const earthGroup = new THREE.Group();
-    earthGroup.position.set(95, -5, 0);
+    earthGroup.position.set(75, -4, 0);
     scene.add(earthGroup);
 
     const EARTH_R = 52;
@@ -122,16 +122,17 @@ export default function ThreeScene() {
         uSun: { value: new THREE.Vector3(1.1, 0.5, 1.4).normalize() },
       },
       vertexShader: `
-        varying vec3 vN; varying vec3 vObj;
+        varying vec3 vN; varying vec3 vObj; varying vec3 vViewPos;
         void main(){
-          vN   = normalize(normalMatrix * normal);
-          vObj = normalize(position);
+          vN       = normalize(normalMatrix * normal);
+          vObj     = normalize(position);
+          vViewPos = (modelViewMatrix * vec4(position,1.)).xyz;
           gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.);
         }
       `,
       fragmentShader: `
         uniform float uT; uniform vec3 uSun;
-        varying vec3 vN; varying vec3 vObj;
+        varying vec3 vN; varying vec3 vObj; varying vec3 vViewPos;
 
         float h31(vec3 p){ return fract(sin(dot(p,vec3(127.1,311.7,74.7)))*43758.545); }
         float sn3(vec3 p){
@@ -191,8 +192,9 @@ export default function ThreeScene() {
           float spec = pow(max(0.0,dot(vN,h)),80.0)*(1.0-land)*(1.0-cloud);
           lit += vec3(0.8,0.95,1.0)*spec*0.6;
 
-          // atmosphere rim on day side
-          float rim = pow(1.0-max(0.0,dot(vN,vec3(0.0,0.0,1.0))),3.0);
+          // atmosphere rim on day side — use real view direction
+          vec3 viewDir = normalize(-vViewPos);
+          float rim = pow(1.0-max(0.0,dot(vN,viewDir)),3.0);
           lit = mix(lit, vec3(0.35,0.65,0.85), rim*0.45*max(0.2,diff));
 
           // city lights (night)
@@ -210,43 +212,57 @@ export default function ThreeScene() {
     earth.rotation.z = 0.41;
     earthGroup.add(earth);
 
-    /* ── ATMOSPHERE — BackSide + AdditiveBlending = rim-only glow ── */
+    /* ── ATMOSPHERE — FrontSide + AdditiveBlending + real view vector ── */
     const atmoMat = new THREE.ShaderMaterial({
-      side: THREE.BackSide,
+      side: THREE.FrontSide,
       transparent: true,
+      depthTest: true,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
       uniforms: { uSun: earthMat.uniforms.uSun },
       vertexShader: `
-        varying vec3 vN;
-        void main(){ vN = normalize(normalMatrix*normal); gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.); }
+        varying vec3 vN; varying vec3 vVP;
+        void main(){
+          vN  = normalize(normalMatrix*normal);
+          vVP = (modelViewMatrix*vec4(position,1.)).xyz;
+          gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.);
+        }
       `,
       fragmentShader: `
-        varying vec3 vN; uniform vec3 uSun;
+        varying vec3 vN; varying vec3 vVP; uniform vec3 uSun;
         void main(){
-          float i = pow(0.72-dot(vN,vec3(0.0,0.0,1.0)), 2.6);
+          vec3 viewDir = normalize(-vVP);
+          float rim = 1.0 - max(0.0, dot(vN, viewDir));
+          float i = pow(rim, 2.6);
           float lit = max(0.2, dot(normalize(vN), uSun));
           vec3 c = mix(vec3(0.18,0.48,0.72), vec3(0.35,0.75,0.85), lit);
-          gl_FragColor = vec4(c, clamp(i,0.0,1.0)*0.55);
+          gl_FragColor = vec4(c, clamp(i,0.0,1.0)*0.50);
         }
       `,
     });
     earthGroup.add(new THREE.Mesh(new THREE.SphereGeometry(EARTH_R*1.06, 64, 64), atmoMat));
 
     const atmoMat2 = new THREE.ShaderMaterial({
-      side: THREE.BackSide,
+      side: THREE.FrontSide,
       transparent: true,
+      depthTest: true,
       depthWrite: false,
       blending: THREE.AdditiveBlending,
       vertexShader: `
-        varying vec3 vN;
-        void main(){ vN = normalize(normalMatrix*normal); gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.); }
+        varying vec3 vN; varying vec3 vVP;
+        void main(){
+          vN  = normalize(normalMatrix*normal);
+          vVP = (modelViewMatrix*vec4(position,1.)).xyz;
+          gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.);
+        }
       `,
       fragmentShader: `
-        varying vec3 vN;
+        varying vec3 vN; varying vec3 vVP;
         void main(){
-          float i = pow(0.80-dot(vN,vec3(0.0,0.0,1.0)),4.0);
-          gl_FragColor = vec4(0.25,0.60,0.80, clamp(i,0.0,1.0)*0.28);
+          vec3 viewDir = normalize(-vVP);
+          float rim = 1.0 - max(0.0, dot(vN, viewDir));
+          float i = pow(rim, 4.0);
+          gl_FragColor = vec4(0.25,0.60,0.80, clamp(i,0.0,1.0)*0.25);
         }
       `,
     });
