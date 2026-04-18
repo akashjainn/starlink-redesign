@@ -21,7 +21,7 @@ export default function ThreeScene() {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, W() / H(), 0.1, 3000);
     camera.position.set(0, 8, 200);
-    camera.lookAt(28, 0, 0);
+    camera.lookAt(8, 0, 0);
 
     /* ── DEEP-SPACE NEBULA BACKGROUND ── */
     {
@@ -112,7 +112,7 @@ export default function ThreeScene() {
 
     /* ── EARTH — 3D object-space noise, no UV seam ── */
     const earthGroup = new THREE.Group();
-    earthGroup.position.set(32, -2, 0);
+    earthGroup.position.set(95, -5, 0);
     scene.add(earthGroup);
 
     const EARTH_R = 52;
@@ -442,7 +442,7 @@ export default function ThreeScene() {
 
       camera.position.x += (mx * 16 - camera.position.x) * 0.02;
       camera.position.y += (8 - my * 10 - camera.position.y) * 0.02;
-      camera.lookAt(32, 0, 0);
+      camera.lookAt(8, 0, 0);
       renderer.render(scene, camera);
     }
 

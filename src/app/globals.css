@@ -245,10 +245,10 @@ body {
 }
 
 .plan-card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.36) 0%, rgba(255, 255, 255, 0.05) 100%);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1.5px solid rgba(255, 255, 255, 0.22);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(255, 255, 255, 0.52) 100%);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1.5px solid rgba(255, 255, 255, 0.40);
   border-radius: 20px;
   padding: 36px 32px;
   position: relative;
@@ -310,13 +310,13 @@ body {
 
 .plan-period {
   font-size: 12px;
-  color: rgba(26, 26, 26, 0.42);
+  color: rgba(26, 26, 26, 0.68);
   margin-bottom: 22px;
 }
 
 .plan-hr {
   height: 1px;
-  background: rgba(26, 26, 26, 0.07);
+  background: rgba(26, 26, 26, 0.14);
   margin-bottom: 18px;
 }
 
@@ -327,7 +327,7 @@ body {
 
 .plan-feats li {
   font-size: 13px;
-  color: rgba(26, 26, 26, 0.62);
+  color: rgba(26, 26, 26, 0.85);
   padding: 5px 0;
   display: flex;
   align-items: center;
