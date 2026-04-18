@@ -53,14 +53,7 @@ body {
 
 /* ── Brand rows ── */
 .brand-row {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  line-height: 1;
-}
-
-.brand-row {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 14px;
   line-height: 1;
@@ -75,6 +68,7 @@ body {
 }
 
 .wordmark {
+  display: block;
   font-family: 'Bebas Neue', sans-serif;
   font-size: 72px;
   font-weight: 400;
@@ -101,7 +95,7 @@ body {
   width: 52px;
   height: 52px;
   align-self: center;
-  transform: translateY(3px);
+  transform: translateY(-4px);
 }
 
 /* ── Home nav link stack ── */
