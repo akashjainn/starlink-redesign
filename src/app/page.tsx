@@ -29,15 +29,15 @@ export default function HomePage() {
         {/* Brand row: STARLINK wordmark + logo mark */}
         <div
           className="brand-row anim-text"
-          style={{ position: "absolute", top: 50, left: 90, display: "flex", alignItems: "center", gap: 14, lineHeight: 1 }}
+          style={{ position: "absolute", top: 60, left: 90 }}
         >
           <span className="wordmark">STARLINK</span>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
+            className="logo-mark logo-mark--hero"
             src="/starlink-mark-52.svg"
             alt=""
             aria-hidden="true"
-            style={{ width: 52, height: 52, flexShrink: 0, display: "block", objectFit: "contain" }}
           />
         </div>
 

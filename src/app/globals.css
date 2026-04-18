@@ -59,6 +59,13 @@ body {
   line-height: 1;
 }
 
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  line-height: 1;
+}
+
 .brand-row-between {
   display: flex;
   align-items: center;
@@ -88,6 +95,13 @@ body {
   object-fit: contain;
   flex-shrink: 0;
   display: block;
+}
+
+.logo-mark--hero {
+  width: 52px;
+  height: 52px;
+  align-self: center;
+  transform: translateY(3px);
 }
 
 /* ── Home nav link stack ── */
