@@ -237,7 +237,7 @@ export default function HomePage() {
         <div className="footer-brand">
           <span style={{ lineHeight: 0.78 }}>STARLINK</span>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/starlink-mark-24.svg" alt="" aria-hidden="true" />
+          <img className="footer-logo" src="/starlink-mark-24.svg" alt="" aria-hidden="true" />
         </div>
         <div className="footer-copy">
           © 2025 Space Exploration Technologies Corp. — Rebrand by Akash Jain
