@@ -73,7 +73,7 @@ body {
   font-weight: 400;
   letter-spacing: 0.08em;
   color: #edf0e8;
-  line-height: 1;
+  line-height: 0.78;
   text-transform: uppercase;
   user-select: none;
 }

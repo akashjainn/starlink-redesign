@@ -37,7 +37,7 @@ export default function HomePage() {
             src="/starlink-mark-52.svg"
             alt=""
             aria-hidden="true"
-            style={{ width: 52, height: 52, flexShrink: 0, display: "block", objectFit: "contain", marginTop: -2 }}
+            style={{ width: 52, height: 52, flexShrink: 0, display: "block", objectFit: "contain" }}
           />
         </div>
 
@@ -235,7 +235,7 @@ export default function HomePage() {
       {/* ═══════════ FOOTER ═══════════ */}
       <footer className="site-footer">
         <div className="footer-brand">
-          STARLINK
+          <span style={{ lineHeight: 0.78 }}>STARLINK</span>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/starlink-mark-24.svg" alt="" aria-hidden="true" />
         </div>
