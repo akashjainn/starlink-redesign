@@ -115,7 +115,7 @@ export default function HomePage() {
               fontFamily: "'DM Sans', sans-serif",
               fontSize: 30,
               fontWeight: 600,
-              color: "#1a1a1a",
+              color: "#edf0e8",
               marginBottom: 14,
               lineHeight: 1.2,
             }}
@@ -128,7 +128,7 @@ export default function HomePage() {
               fontFamily: "'DM Sans', sans-serif",
               fontSize: 20,
               fontWeight: 500,
-              color: "rgba(26,26,26,0.75)",
+              color: "rgba(237,240,232,0.75)",
               marginBottom: 40,
               lineHeight: 1.45,
             }}
@@ -155,7 +155,7 @@ export default function HomePage() {
                 fontFamily: "'DM Sans', sans-serif",
                 fontSize: 14,
                 fontWeight: 500,
-                color: "rgba(26,26,26,0.75)",
+                color: "rgba(237,240,232,0.70)",
                 cursor: "pointer",
                 background: "none",
                 border: "none",
@@ -165,7 +165,7 @@ export default function HomePage() {
               onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.6")}
               onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(26,26,26,0.75)" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(237,240,232,0.70)" aria-hidden="true">
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
               </svg>
               Use my current location
