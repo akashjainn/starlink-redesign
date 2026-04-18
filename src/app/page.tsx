@@ -29,14 +29,15 @@ export default function HomePage() {
         {/* Brand row: STARLINK wordmark + logo mark */}
         <div
           className="brand-row anim-text"
-          style={{ position: "absolute", top: 60, left: 90, display: "flex", alignItems: "center", gap: 18 }}
+          style={{ position: "absolute", top: 60, left: 90, display: "flex", alignItems: "center", gap: 14, lineHeight: 1 }}
         >
           <span className="wordmark">STARLINK</span>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            className="logo-mark"
-            src="/starlink-logo-new.svg"
-            alt="Starlink mark"
+            src="/starlink-mark-52.svg"
+            alt=""
+            aria-hidden="true"
+            style={{ width: 52, height: 52, flexShrink: 0, display: "block", objectFit: "contain", marginTop: -2 }}
           />
         </div>
 
@@ -52,7 +53,7 @@ export default function HomePage() {
             fontSize: "clamp(36px, 3.5vw, 52px)",
             fontWeight: 700,
             lineHeight: 1.15,
-            color: "#1a1a1a",
+            color: "#edf0e8",
           }}
         >
           Stay connected.<br />Wherever you go.
@@ -69,7 +70,7 @@ export default function HomePage() {
             fontFamily: "'DM Sans', sans-serif",
             fontSize: "clamp(18px, 1.9vw, 28px)",
             fontWeight: 400,
-            color: "#1a1a1a",
+            color: "rgba(237,240,232,0.82)",
             lineHeight: 1.4,
           }}
         >
@@ -96,7 +97,7 @@ export default function HomePage() {
         {/* Scroll indicator */}
         <div className="scroll-indicator">
           <svg width="1" height="32">
-            <line x1="0.5" y1="0" x2="0.5" y2="32" stroke="#1a1a1a" strokeWidth="1" />
+            <line x1="0.5" y1="0" x2="0.5" y2="32" stroke="#edf0e8" strokeWidth="1" />
           </svg>
           <span>Scroll</span>
         </div>
@@ -105,9 +106,7 @@ export default function HomePage() {
       {/* ═══════════ PAGE 2 — GET STARLINK ═══════════ */}
       <section id="page-get" className="page page-get">
         <div className="brand-row-between">
-          <span className="wordmark">Get Starlink</span>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="logo-mark" src="/starlink-logo-new.svg" alt="Starlink mark" />
+          <span className="wordmark wordmark--section">Get Starlink</span>
         </div>
 
         <div className="glass-card">
@@ -181,9 +180,7 @@ export default function HomePage() {
       {/* ═══════════ PAGE 3 — CHOOSE A PLAN ═══════════ */}
       <section id="page-plans" className="page page-plans">
         <div className="brand-row-between">
-          <span className="wordmark">Choose a Plan</span>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="logo-mark" src="/starlink-logo-new.svg" alt="Starlink mark" />
+          <span className="wordmark wordmark--section">Choose a Plan</span>
         </div>
 
         <div className="plans-grid">
@@ -240,7 +237,7 @@ export default function HomePage() {
         <div className="footer-brand">
           STARLINK
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/starlink-logo-new.svg" alt="" />
+          <img src="/starlink-mark-24.svg" alt="" aria-hidden="true" />
         </div>
         <div className="footer-copy">
           © 2025 Space Exploration Technologies Corp. — Rebrand by Akash Jain
