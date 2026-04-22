@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Starlink · No Fear</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Bebas+Neue&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #040409;
+    min-height: 100vh;
+    padding: 52px 24px 80px;
+    font-family: 'DM Sans', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    color: rgba(237,240,232,0.2);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    letter-spacing: 0.06em;
+    color: #edf0e8;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .tagline {
+    font-size: 14px;
+    color: rgba(237,240,232,0.3);
+    text-align: center;
+    max-width: 520px;
+    line-height: 1.6;
+    margin-bottom: 64px;
+  }
+
+  .screens {
+    display: flex;
+    gap: 28px;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .sw {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .sw-num {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    color: rgba(237,240,232,0.2);
+    text-transform: uppercase;
+  }
+
+  .sw-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    letter-spacing: 0.16em;
+    color: rgba(237,240,232,0.5);
+    text-align: center;
+  }
+
+  .sw-desc {
+    font-size: 11px;
+    color: rgba(237,240,232,0.25);
+    text-align: center;
+    max-width: 200px;
+    line-height: 1.55;
+  }
+
+  /* ── Phone shell ── */
+  .phone {
+    width: 264px;
+    height: 548px;
+    border-radius: 42px;
+    border: 1.5px solid rgba(255,255,255,0.1);
+    overflow: hidden;
+    position: relative;
+    background: #020208;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.04),
+      0 40px 120px rgba(0,0,0,0.85),
+      0 8px 24px rgba(0,0,0,0.6),
+      inset 0 1px 0 rgba(255,255,255,0.06);
+    flex-shrink: 0;
+  }
+
+  /* Dynamic island */
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 11px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 92px;
+    height: 25px;
+    background: #000;
+    border-radius: 12.5px;
+    z-index: 99;
+  }
+
+  /* ══════════════════════════════════════════
+     SCREEN 1 — THE BEAM
+     The dish points at space. That IS the UI.
+  ══════════════════════════════════════════ */
+  .p1 {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 60% 15%, rgba(0,30,50,0.6) 0%, #020208 55%);
+    overflow: hidden;
+  }
+
+  /* Earth atmosphere at bottom */
+  .p1-atmos {
+    position: absolute;
+    bottom: -140px;
+    left: -80px;
+    right: -80px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at 50% 85%,
+      rgba(8, 25, 55, 0.8) 0%,
+      rgba(4, 12, 30, 0.5) 40%,
+      transparent 65%
+    );
+    border-top: 1px solid rgba(58,217,255,0.07);
+  }
+
+  .p1-hud {
+    position: absolute;
+    top: 46px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 30;
+  }
+
+  .p1-time {
+    font-size: 11px;
+    color: rgba(237,240,232,0.35);
+  }
+
+  .p1-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: #00BFCC;
+    text-transform: uppercase;
+  }
+
+  .p1-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #00BFCC;
+    box-shadow: 0 0 8px rgba(0,191,204,0.9), 0 0 16px rgba(0,191,204,0.4);
+    animation: alive 1.9s ease-in-out infinite;
+  }
+
+  @keyframes alive {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.25; }
+  }
+
+  /* The BIG download number, floating in void */
+  .p1-dl {
+    position: absolute;
+    top: 158px;
+    left: 20px;
+    z-index: 30;
+  }
+
+  .BIG {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 82px;
+    color: rgba(237,240,232,0.97);
+    letter-spacing: 0.01em;
+    line-height: 1;
+    text-shadow: 0 0 60px rgba(255,255,255,0.15), 0 0 120px rgba(58,217,255,0.08);
+  }
+
+  .BIG-lbl {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: rgba(237,240,232,0.25);
+    text-transform: uppercase;
+    margin-top: 5px;
+  }
+
+  .p1-secondaries {
+    position: absolute;
+    top: 275px;
+    left: 20px;
+    z-index: 30;
+    display: flex;
+    gap: 18px;
+  }
+
+  .p1-sec {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .p1-sec .v {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: rgba(237,240,232,0.55);
+    letter-spacing: 0.03em;
+    line-height: 1;
+  }
+
+  .p1-sec .l {
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    color: rgba(237,240,232,0.2);
+    text-transform: uppercase;
+  }
+
+  /* Separator slash */
+  .p1-slash {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: rgba(237,240,232,0.12);
+    line-height: 1;
+    align-self: flex-start;
+    padding-top: 0px;
+  }
+
+  /* Footer gradient + actions */
+  .p1-foot {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 36px 20px 24px;
+    background: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(2, 4, 14, 0.85) 30%,
+      rgba(2, 4, 14, 0.98) 70%
+    );
+    z-index: 30;
+  }
+
+  .p1-netname {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 19px;
+    letter-spacing: 0.14em;
+    color: rgba(237,240,232,0.9);
+    margin-bottom: 3px;
+  }
+
+  .p1-dev {
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: rgba(237,240,232,0.27);
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+
+  .p1-btns {
+    display: flex;
+    gap: 7px;
+  }
+
+  .p1-btn {
+    flex: 1;
+    padding: 9px 0;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.07);
+    background: rgba(255,255,255,0.04);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(237,240,232,0.4);
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .p1-btn.y {
+    background: #E8E000;
+    border-color: transparent;
+    color: #080f04;
+    box-shadow: 0 2px 14px rgba(232,224,0,0.25);
+  }
+
+  /* SVG beam layer */
+  .beam-layer {
+    position: absolute;
+    inset: 0;
+    width: 264px;
+    height: 548px;
+    pointer-events: none;
+    z-index: 20;
+  }
+
+
+  /* ══════════════════════════════════════════
+     SCREEN 2 — FIRST CONTACT
+     A vertical signal climbing from earth to orbit.
+  ══════════════════════════════════════════ */
+  .p2 {
+    position: absolute;
+    inset: 0;
+    background: #020208;
+    overflow: hidden;
+  }
+
+  /* Subtle radial glow from center */
+  .p2-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+      rgba(255,255,255,0.04) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+  }
+
+  .p2-bar {
+    position: absolute;
+    top: 44px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 30;
+  }
+
+  .p2-x { font-size: 18px; font-weight: 300; color: rgba(237,240,232,0.3); }
+  .p2-wm { font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 0.22em; color: #edf0e8; }
+  .p2-q {
+    width: 18px; height: 18px; border-radius: 50%;
+    border: 1px solid rgba(237,240,232,0.18);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: rgba(237,240,232,0.3); font-weight: 600;
+  }
+
+  /* Steps area — center column */
+  .p2-steps-area {
+    position: absolute;
+    top: 88px;
+    bottom: 108px;
+    left: 0;
+    right: 0;
+    z-index: 25;
+  }
+
+  .p2-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  /* The step label row */
+  .p2-step-row {
+    position: absolute;
+    left: calc(50% + 20px);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transform: translateY(-50%);
+    z-index: 30;
+  }
+
+  .p2-step-row .stl {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .p2-step-row.s-done .stl { color: rgba(0,191,204,0.7); }
+  .p2-step-row.s-active .stl { color: rgba(237,240,232,0.9); font-size: 10px; }
+  .p2-step-row.s-future .stl { color: rgba(237,240,232,0.22); }
+
+  .p2-step-row .s-check { font-size: 8px; color: rgba(0,191,204,0.5); }
+
+  /* Context line below active step */
+  .p2-context {
+    position: absolute;
+    left: calc(50% + 20px);
+    z-index: 30;
+    font-size: 9px;
+    color: rgba(237,240,232,0.3);
+    line-height: 1.5;
+    max-width: 110px;
+  }
+
+  .p2-foot {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0 20px 22px;
+    z-index: 30;
+  }
+
+  .p2-cta {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: #fff;
+    border-radius: 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #020208;
+    text-align: center;
+    box-shadow: 0 0 50px rgba(255,255,255,0.1);
+  }
+
+  .p2-micro {
+    font-size: 9px;
+    color: rgba(237,240,232,0.2);
+    text-align: center;
+    margin-top: 8px;
+    letter-spacing: 0.08em;
+  }
+
+
+  /* ══════════════════════════════════════════
+     SCREEN 3 — TRANSMISSION
+     Watching data travel between Earth and space.
+  ══════════════════════════════════════════ */
+  .p3 {
+    position: absolute;
+    inset: 0;
+    background: #020208;
+    overflow: hidden;
+  }
+
+  .p3-bar {
+    position: absolute;
+    top: 44px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 30;
+  }
+
+  .p3-back { font-size: 16px; color: rgba(237,240,232,0.35); }
+  .p3-title { font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 0.2em; color: #edf0e8; }
+  .p3-i {
+    width: 18px; height: 18px; border-radius: 50%;
+    border: 1px solid rgba(237,240,232,0.18);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; color: rgba(237,240,232,0.3); font-weight: 600;
+  }
+
+  /* Download figure */
+  .p3-dl {
+    position: absolute;
+    top: 152px;
+    left: 20px;
+    z-index: 30;
+  }
+
+  .p3-dl .BIG { font-size: 80px; }
+
+  /* Latency pill */
+  .p3-ms {
+    position: absolute;
+    top: 258px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 30;
+    background: rgba(232,224,0,0.08);
+    border: 1px solid rgba(232,224,0,0.28);
+    border-radius: 20px;
+    padding: 5px 14px;
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    white-space: nowrap;
+  }
+
+  .p3-msn {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: #E8E000;
+    letter-spacing: 0.04em;
+    line-height: 1;
+  }
+
+  .p3-msl {
+    font-size: 8px;
+    letter-spacing: 0.16em;
+    color: rgba(232,224,0,0.5);
+    text-transform: uppercase;
+  }
+
+  /* Upload figure */
+  .p3-ul {
+    position: absolute;
+    top: 298px;
+    right: 20px;
+    text-align: right;
+    z-index: 30;
+  }
+
+  .p3-ul .BIG {
+    font-size: 44px;
+    color: rgba(58,217,255,0.9);
+    text-shadow: 0 0 30px rgba(58,217,255,0.35);
+  }
+
+  /* Bottom */
+  .p3-foot {
+    position: absolute;
+    bottom: 24px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 30;
+  }
+
+  .p3-again {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(237,240,232,0.38);
+    border-bottom: 1px solid rgba(237,240,232,0.1);
+    padding-bottom: 2px;
+  }
+
+  .p3-adv {
+    font-size: 8px;
+    color: rgba(237,240,232,0.16);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+
+</style>
+</head>
+<body>
+
+<p class="eyebrow">Starlink App · Reimagined</p>
+<h1>The Beam Is The Interface</h1>
+<p class="tagline">Three screens. One language. You are holding a live connection to a satellite 340 miles above the Earth — the app should feel exactly like that.</p>
+
+<div class="screens">
+
+  <!-- ═══ SCREEN 1: THE BEAM ═══ -->
+  <div class="sw">
+    <div class="sw-num">Screen 01</div>
+    <div class="phone">
+      <div class="p1">
+        <div class="p1-atmos"></div>
+
+        <!-- HUD -->
+        <div class="p1-hud">
+          <span class="p1-time">4:20</span>
+          <span class="p1-badge"><span class="p1-dot"></span>Online</span>
+        </div>
+
+        <!-- Big download floating in the void -->
+        <div class="p1-dl">
+          <div class="BIG">348</div>
+          <div class="BIG-lbl">↓ Mbps Download</div>
+        </div>
+
+        <!-- Secondary stats -->
+        <div class="p1-secondaries">
+          <div class="p1-sec">
+            <div class="v">49</div>
+            <div class="l">↑ Mbps Up</div>
+          </div>
+          <div class="p1-slash">/</div>
+          <div class="p1-sec">
+            <div class="v">32</div>
+            <div class="l">ms Latency</div>
+          </div>
+        </div>
+
+        <!-- Beam SVG: dish → satellite, with flowing particles -->
+        <svg class="beam-layer" viewBox="0 0 264 548" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- Star field -->
+          <circle cx="44" cy="62" r="0.8" fill="rgba(255,255,255,0.4)"/>
+          <circle cx="188" cy="48" r="0.7" fill="rgba(255,255,255,0.3)"/>
+          <circle cx="232" cy="96" r="1" fill="rgba(255,255,255,0.35)"/>
+          <circle cx="22" cy="140" r="0.6" fill="rgba(255,255,255,0.25)"/>
+          <circle cx="250" cy="160" r="0.8" fill="rgba(255,255,255,0.2)"/>
+          <circle cx="70" cy="92" r="0.7" fill="rgba(255,255,255,0.3)"/>
+          <circle cx="148" cy="72" r="0.6" fill="rgba(255,255,255,0.22)"/>
+
+          <!-- Orbital arc (satellite path) -->
+          <path d="M -30 148 Q 132 52 294 148" stroke="rgba(255,255,255,0.05)" stroke-width="1" stroke-dasharray="3 6" fill="none"/>
+
+          <!-- Beam: wide glow -->
+          <line x1="58" y1="500" x2="216" y2="100"
+                stroke="rgba(255,255,255,0.04)" stroke-width="22"/>
+
+          <!-- Beam: mid glow -->
+          <line x1="58" y1="500" x2="216" y2="100"
+                stroke="rgba(255,255,255,0.06)" stroke-width="10"/>
+
+          <!-- Beam: core -->
+          <line x1="58" y1="500" x2="216" y2="100"
+                stroke="url(#bGrad)" stroke-width="1.5"/>
+
+          <defs>
+            <linearGradient id="bGrad" x1="58" y1="500" x2="216" y2="100" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="rgba(237,240,232,0.7)"/>
+              <stop offset="100%" stop-color="rgba(58,217,255,0.95)"/>
+            </linearGradient>
+            <linearGradient id="bGrad3" x1="216" y1="100" x2="58" y2="500" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="rgba(58,217,255,0.95)"/>
+              <stop offset="100%" stop-color="rgba(237,240,232,0.5)"/>
+            </linearGradient>
+          </defs>
+
+          <!-- Hidden beam path for animateMotion reference -->
+          <path id="bp1" d="M 58 500 L 216 100" fill="none" stroke="none"/>
+          <path id="bp1r" d="M 216 100 L 58 500" fill="none" stroke="none"/>
+
+          <!-- Download particles (satellite → dish, faster, brighter) -->
+          <circle r="2.5" fill="rgba(58,217,255,0.95)">
+            <animateMotion dur="1.6s" repeatCount="indefinite" begin="0s"><mpath href="#bp1r"/></animateMotion>
+          </circle>
+          <circle r="2" fill="rgba(58,217,255,0.8)">
+            <animateMotion dur="1.6s" repeatCount="indefinite" begin="0.32s"><mpath href="#bp1r"/></animateMotion>
+          </circle>
+          <circle r="1.5" fill="rgba(180,240,255,0.9)">
+            <animateMotion dur="1.6s" repeatCount="indefinite" begin="0.64s"><mpath href="#bp1r"/></animateMotion>
+          </circle>
+          <circle r="2.5" fill="rgba(58,217,255,0.95)">
+            <animateMotion dur="1.6s" repeatCount="indefinite" begin="0.96s"><mpath href="#bp1r"/></animateMotion>
+          </circle>
+          <circle r="1.8" fill="rgba(180,240,255,0.8)">
+            <animateMotion dur="1.6s" repeatCount="indefinite" begin="1.28s"><mpath href="#bp1r"/></animateMotion>
+          </circle>
+
+          <!-- Upload particles (dish → satellite, slower, dimmer) -->
+          <circle r="1.5" fill="rgba(237,240,232,0.6)">
+            <animateMotion dur="2.8s" repeatCount="indefinite" begin="0s"><mpath href="#bp1"/></animateMotion>
+          </circle>
+          <circle r="1.2" fill="rgba(237,240,232,0.45)">
+            <animateMotion dur="2.8s" repeatCount="indefinite" begin="1.4s"><mpath href="#bp1"/></animateMotion>
+          </circle>
+
+          <!-- Satellite -->
+          <circle cx="216" cy="100" r="10" fill="rgba(58,217,255,0.06)"/>
+          <circle cx="216" cy="100" r="6" fill="rgba(58,217,255,0.12)"/>
+          <circle cx="216" cy="100" r="3.5" fill="rgba(255,255,255,0.9)"/>
+          <circle cx="216" cy="100" r="3.5" fill="none" stroke="rgba(58,217,255,0.6)" stroke-width="1">
+            <animate attributeName="r" values="3.5;12;3.5" dur="3s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.6;0;0.6" dur="3s" repeatCount="indefinite"/>
+          </circle>
+
+          <!-- Dish at bottom-left -->
+          <rect x="48" y="492" width="18" height="11" rx="2.5" fill="rgba(237,240,232,0.7)"
+                transform="rotate(-18, 57, 498)"/>
+          <line x1="57" y1="503" x2="57" y2="510" stroke="rgba(237,240,232,0.4)" stroke-width="1.5"/>
+
+        </svg>
+
+        <!-- Footer -->
+        <div class="p1-foot">
+          <div class="p1-netname">STARLINK WIFI</div>
+          <div class="p1-dev">3 devices connected</div>
+          <div class="p1-btns">
+            <div class="p1-btn">Network</div>
+            <div class="p1-btn">Stats</div>
+            <div class="p1-btn">Settings</div>
+            <div class="p1-btn y">Speed Test</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="sw-name">The Beam</div>
+    <div class="sw-desc">The beam IS the UI. No cards, no lists. Your live connection to a satellite floating 340 miles above, at all times.</div>
+  </div>
+
+
+  <!-- ═══ SCREEN 2: FIRST CONTACT ═══ -->
+  <div class="sw">
+    <div class="sw-num">Screen 02</div>
+    <div class="phone">
+      <div class="p2">
+        <div class="p2-glow"></div>
+
+        <!-- Top bar -->
+        <div class="p2-bar">
+          <span class="p2-x">✕</span>
+          <span class="p2-wm">STARLINK</span>
+          <span class="p2-q">?</span>
+        </div>
+
+        <!-- Central beam with steps SVG -->
+        <div class="p2-steps-area">
+          <svg class="p2-svg" viewBox="0 0 264 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Background vertical beam track (full height, faint) -->
+            <line x1="132" y1="10" x2="132" y2="330"
+                  stroke="rgba(255,255,255,0.05)" stroke-width="1" stroke-dasharray="2 5"/>
+
+            <!-- Lit beam: from bottom (earth/dish) upward to step 3 (CONNECT) -->
+            <!-- Steps at y positions: FINISH=30, CONFIGURE=95, CONNECT=168, POWER=237, SETUP=305 -->
+            <!-- Lit from y=305 (SETUP, done) up to y=168 (CONNECT, current) -->
+            <line x1="132" y1="305" x2="132" y2="168"
+                  stroke="url(#vGrad)" stroke-width="1.5"/>
+            <line x1="132" y1="305" x2="132" y2="168"
+                  stroke="rgba(255,255,255,0.08)" stroke-width="8"/>
+
+            <!-- Animated signal traveling up the lit beam -->
+            <path id="vpLit" d="M 132 305 L 132 168" fill="none" stroke="none"/>
+            <circle r="2.5" fill="rgba(255,255,255,0.9)">
+              <animateMotion dur="1.4s" repeatCount="indefinite" begin="0s"><mpath href="#vpLit"/></animateMotion>
+            </circle>
+            <circle r="1.8" fill="rgba(58,217,255,0.8)">
+              <animateMotion dur="1.4s" repeatCount="indefinite" begin="0.46s"><mpath href="#vpLit"/></animateMotion>
+            </circle>
+            <circle r="2" fill="rgba(255,255,255,0.7)">
+              <animateMotion dur="1.4s" repeatCount="indefinite" begin="0.92s"><mpath href="#vpLit"/></animateMotion>
+            </circle>
+
+            <defs>
+              <linearGradient id="vGrad" x1="132" y1="305" x2="132" y2="168" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="rgba(237,240,232,0.6)"/>
+                <stop offset="100%" stop-color="rgba(255,255,255,0.95)"/>
+              </linearGradient>
+            </defs>
+
+            <!-- NODE: SETUP — done -->
+            <circle cx="132" cy="305" r="5" fill="#00BFCC"/>
+            <circle cx="132" cy="305" r="5" fill="none" stroke="rgba(0,191,204,0.3)" stroke-width="4"/>
+
+            <!-- NODE: POWER — done -->
+            <circle cx="132" cy="237" r="5" fill="#00BFCC"/>
+            <circle cx="132" cy="237" r="5" fill="none" stroke="rgba(0,191,204,0.3)" stroke-width="4"/>
+
+            <!-- NODE: CONNECT — active, pulsing -->
+            <circle cx="132" cy="168" r="7" fill="rgba(255,255,255,0.95)">
+            </circle>
+            <circle cx="132" cy="168" r="7" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="3">
+              <animate attributeName="r" values="7;20;7" dur="2s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="0.6;0;0.6" dur="2s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="132" cy="168" r="7" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2">
+              <animate attributeName="r" values="7;30;7" dur="2s" repeatCount="indefinite" begin="0.4s"/>
+              <animate attributeName="opacity" values="0.4;0;0.4" dur="2s" repeatCount="indefinite" begin="0.4s"/>
+            </circle>
+
+            <!-- NODE: CONFIGURE — future -->
+            <circle cx="132" cy="95" r="4" fill="none" stroke="rgba(237,240,232,0.15)" stroke-width="1.5"/>
+
+            <!-- NODE: FINISH — future -->
+            <circle cx="132" cy="30" r="4" fill="none" stroke="rgba(237,240,232,0.1)" stroke-width="1.5"/>
+
+            <!-- Satellite shape at top (destination) -->
+            <circle cx="132" cy="10" r="6" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+            <line x1="118" y1="10" x2="126" y2="10" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+            <line x1="138" y1="10" x2="146" y2="10" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+            <rect x="129" y="7" width="6" height="6" rx="1" fill="rgba(255,255,255,0.6)"/>
+
+            <!-- Dish at bottom -->
+            <rect x="126" y="324" width="12" height="8" rx="2" fill="rgba(237,240,232,0.4)"/>
+            <line x1="132" y1="332" x2="132" y2="340" stroke="rgba(237,240,232,0.3)" stroke-width="1.5"/>
+
+          </svg>
+        </div>
+
+        <!-- Step labels -->
+        <!-- FINISH -->
+        <div class="p2-step-row s-future" style="top: calc(88px + 340px * 0.03);">
+          <span class="stl">Finish</span>
+        </div>
+        <!-- CONFIGURE -->
+        <div class="p2-step-row s-future" style="top: calc(88px + 340px * 0.28);">
+          <span class="stl">Configure</span>
+        </div>
+        <!-- CONNECT (active) -->
+        <div class="p2-step-row s-active" style="top: calc(88px + 340px * 0.494);">
+          <span class="stl">Connect</span>
+        </div>
+        <!-- POWER -->
+        <div class="p2-step-row s-done" style="top: calc(88px + 340px * 0.70);">
+          <span class="stl">Power</span>
+          <span class="s-check">✓</span>
+        </div>
+        <!-- SETUP -->
+        <div class="p2-step-row s-done" style="top: calc(88px + 340px * 0.90);">
+          <span class="stl">Setup</span>
+          <span class="s-check">✓</span>
+        </div>
+
+        <!-- Context under active step -->
+        <div class="p2-context" style="top: calc(88px + 340px * 0.494 + 14px);">
+          Searching for your network...
+        </div>
+
+        <!-- Bottom CTA -->
+        <div class="p2-foot">
+          <div class="p2-cta">Open WiFi Settings</div>
+          <div class="p2-micro">May take up to 30 seconds to appear</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="sw-name">First Contact</div>
+    <div class="sw-desc">Not a wizard form. A signal climbing from Earth to orbit. Progress is spatial — you see the distance closing.</div>
+  </div>
+
+
+  <!-- ═══ SCREEN 3: TRANSMISSION ═══ -->
+  <div class="sw">
+    <div class="sw-num">Screen 03</div>
+    <div class="phone">
+      <div class="p3">
+
+        <!-- Top bar -->
+        <div class="p3-bar">
+          <span class="p3-back">‹</span>
+          <span class="p3-title">Speed Test</span>
+          <span class="p3-i">i</span>
+        </div>
+
+        <!-- Beam SVG -->
+        <svg class="beam-layer" viewBox="0 0 264 548" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- Stars -->
+          <circle cx="40" cy="58" r="0.7" fill="rgba(255,255,255,0.4)"/>
+          <circle cx="196" cy="44" r="0.9" fill="rgba(255,255,255,0.3)"/>
+          <circle cx="238" cy="110" r="0.7" fill="rgba(255,255,255,0.35)"/>
+          <circle cx="18" cy="160" r="0.6" fill="rgba(255,255,255,0.25)"/>
+          <circle cx="246" cy="200" r="0.5" fill="rgba(255,255,255,0.2)"/>
+          <circle cx="66" cy="84" r="0.6" fill="rgba(255,255,255,0.28)"/>
+
+          <!-- Orbital arc -->
+          <path d="M -30 148 Q 132 52 294 148" stroke="rgba(255,255,255,0.04)" stroke-width="1" stroke-dasharray="3 6" fill="none"/>
+
+          <!-- Beam glow (wide) -->
+          <line x1="58" y1="500" x2="216" y2="100"
+                stroke="rgba(255,255,255,0.03)" stroke-width="28"/>
+
+          <!-- Beam glow (mid) -->
+          <line x1="58" y1="500" x2="216" y2="100"
+                stroke="rgba(255,255,255,0.05)" stroke-width="12"/>
+
+          <!-- Download beam — cyan core -->
+          <line x1="58" y1="500" x2="216" y2="100"
+                stroke="url(#bGrad3)" stroke-width="1.5"/>
+
+          <defs>
+            <linearGradient id="bGrad3" x1="216" y1="100" x2="58" y2="500" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="rgba(58,217,255,0.95)"/>
+              <stop offset="100%" stop-color="rgba(58,217,255,0.4)"/>
+            </linearGradient>
+          </defs>
+
+          <path id="bp3r" d="M 216 100 L 58 500" fill="none" stroke="none"/>
+          <path id="bp3" d="M 58 500 L 216 100" fill="none" stroke="none"/>
+
+          <!-- Download particles (fast, cyan, many) -->
+          <circle r="2.8" fill="rgba(58,217,255,1)">
+            <animateMotion dur="1.4s" repeatCount="indefinite" begin="0s"><mpath href="#bp3r"/></animateMotion>
+          </circle>
+          <circle r="2.2" fill="rgba(120,230,255,0.9)">
+            <animateMotion dur="1.4s" repeatCount="indefinite" begin="0.28s"><mpath href="#bp3r"/></animateMotion>
+          </circle>
+          <circle r="3" fill="rgba(58,217,255,0.95)">
+            <animateMotion dur="1.4s" repeatCount="indefinite" begin="0.56s"><mpath href="#bp3r"/></animateMotion>
+          </circle>
+          <circle r="2" fill="rgba(180,248,255,0.8)">
+            <animateMotion dur="1.4s" repeatCount="indefinite" begin="0.84s"><mpath href="#bp3r"/></animateMotion>
+          </circle>
+          <circle r="2.5" fill="rgba(58,217,255,1)">
+            <animateMotion dur="1.4s" repeatCount="indefinite" begin="1.12s"><mpath href="#bp3r"/></animateMotion>
+          </circle>
+
+          <!-- Upload particles (slower, white, sparse) -->
+          <circle r="1.6" fill="rgba(237,240,232,0.7)">
+            <animateMotion dur="2.6s" repeatCount="indefinite" begin="0s"><mpath href="#bp3"/></animateMotion>
+          </circle>
+          <circle r="1.3" fill="rgba(237,240,232,0.55)">
+            <animateMotion dur="2.6s" repeatCount="indefinite" begin="1.3s"><mpath href="#bp3"/></animateMotion>
+          </circle>
+
+          <!-- Satellite endpoint -->
+          <circle cx="216" cy="100" r="12" fill="rgba(58,217,255,0.05)"/>
+          <circle cx="216" cy="100" r="7" fill="rgba(58,217,255,0.1)"/>
+          <circle cx="216" cy="100" r="3.5" fill="rgba(255,255,255,0.9)"/>
+          <circle cx="216" cy="100" r="3.5" fill="none" stroke="rgba(58,217,255,0.5)" stroke-width="1.5">
+            <animate attributeName="r" values="3.5;14;3.5" dur="3.5s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="0.5;0;0.5" dur="3.5s" repeatCount="indefinite"/>
+          </circle>
+
+          <!-- Dish -->
+          <rect x="48" y="492" width="18" height="11" rx="2.5" fill="rgba(237,240,232,0.65)"
+                transform="rotate(-18, 57, 498)"/>
+          <line x1="57" y1="503" x2="57" y2="512" stroke="rgba(237,240,232,0.35)" stroke-width="1.5"/>
+
+        </svg>
+
+        <!-- Download number -->
+        <div class="p3-dl">
+          <div class="BIG">348</div>
+          <div class="BIG-lbl">↓ Mbps Download</div>
+        </div>
+
+        <!-- Latency pill -->
+        <div class="p3-ms">
+          <span class="p3-msn">32</span>
+          <span class="p3-msl">ms</span>
+        </div>
+
+        <!-- Upload number -->
+        <div class="p3-ul">
+          <div class="BIG" style="font-size:44px; color: rgba(58,217,255,0.9); text-shadow: 0 0 30px rgba(58,217,255,0.4);">49</div>
+          <div class="BIG-lbl" style="text-align:right;">↑ Mbps Upload</div>
+        </div>
+
+        <!-- Run again -->
+        <div class="p3-foot">
+          <div class="p3-again">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+              <path d="M3 3v5h5"/>
+            </svg>
+            Transmit Again
+          </div>
+          <div class="p3-adv">▾ Advanced</div>
+        </div>
+
+      </div>
+    </div>
+    <div class="sw-name">Transmission</div>
+    <div class="sw-desc">Watch data travel between your dish and the satellite. Download in cyan. Upload in white. Latency in gold.</div>
+  </div>
+
+</div>
+
+</body>
+</html>

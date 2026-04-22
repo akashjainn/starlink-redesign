@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Companion App Section · v2</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Bebas+Neue&display=swap');
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: #040409;
+    font-family: 'DM Sans', sans-serif;
+    color: #edf0e8;
+    padding: 40px 0 80px;
+  }
+
+  .page-ctx {
+    text-align: center;
+    padding: 0 32px 40px;
+    border-bottom: 1px solid rgba(237,240,232,0.06);
+    margin-bottom: 0;
+  }
+  .page-ctx .label {
+    font-size: 10px; letter-spacing: 0.28em;
+    color: rgba(237,240,232,0.22); text-transform: uppercase; margin-bottom: 10px;
+  }
+  .page-ctx h1 {
+    font-family: 'Bebas Neue', sans-serif; font-size: 32px;
+    letter-spacing: 0.06em; color: #edf0e8; margin-bottom: 6px;
+  }
+  .page-ctx p { font-size: 12px; color: rgba(237,240,232,0.3); line-height: 1.6; max-width: 480px; margin: 0 auto; }
+
+  .site-mock { width: 100%; max-width: 1080px; margin: 0 auto; }
+
+  .prev-section {
+    padding: 48px 90px; border-bottom: 1px solid rgba(237,240,232,0.06);
+    opacity: 0.35; display: flex; justify-content: space-between; align-items: center;
+  }
+  .prev-section .wm { font-family:'Bebas Neue',sans-serif; font-size:48px; letter-spacing:0.02em; color:#edf0e8; opacity:0.5; }
+  .prev-section .hint { font-size:11px; color:rgba(237,240,232,0.3); letter-spacing:0.1em; text-transform:uppercase; }
+
+  /* ═══ APP SECTION ═══ */
+  .app-section {
+    position: relative;
+    padding: 100px 90px 110px;
+    display: flex;
+    align-items: center;
+    gap: 72px;
+    overflow: hidden;
+    min-height: 680px;
+  }
+
+  .app-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 72% 50%, rgba(0,28,48,0.45) 0%, transparent 58%),
+      radial-gradient(ellipse at 18% 80%, rgba(0,12,30,0.3) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .app-copy { flex: 1; position: relative; z-index: 10; min-width: 0; }
+
+  .app-eyebrow { display:flex; align-items:center; gap:12px; margin-bottom:20px; }
+  .app-eyebrow-line { width:28px; height:1px; background:rgba(0,191,204,0.6); }
+  .app-eyebrow-text { font-size:10px; font-weight:600; letter-spacing:0.24em; color:rgba(0,191,204,0.8); text-transform:uppercase; }
+
+  .app-heading {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(44px, 4.5vw, 64px);
+    letter-spacing: 0.04em; color: #edf0e8;
+    line-height: 1.0; margin-bottom: 22px;
+  }
+  .app-heading em { font-style:normal; color:#3ad9ff; }
+
+  .app-body {
+    font-size: 16px; font-weight: 400; line-height: 1.6;
+    color: rgba(237,240,232,0.6); max-width: 380px; margin-bottom: 40px;
+  }
+
+  .screen-switcher { display:flex; flex-direction:column; gap:0; }
+
+  .switcher-item {
+    display: flex; align-items: center; gap: 16px;
+    padding: 14px 0; border-bottom: 1px solid rgba(237,240,232,0.07);
+    cursor: pointer; transition: all 0.2s; opacity: 0.4;
+  }
+  .switcher-item:first-child { border-top: 1px solid rgba(237,240,232,0.07); }
+  .switcher-item.active { opacity: 1; }
+
+  .switcher-num {
+    font-family:'Bebas Neue',sans-serif; font-size:13px; letter-spacing:0.14em;
+    color:rgba(237,240,232,0.35); width:20px; flex-shrink:0; transition:color 0.2s;
+  }
+  .switcher-item.active .switcher-num { color:#3ad9ff; }
+
+  .switcher-info { flex:1; }
+  .switcher-title { font-size:14px; font-weight:600; color:#edf0e8; margin-bottom:2px; letter-spacing:0.01em; }
+  .switcher-desc { font-size:11px; color:rgba(237,240,232,0.4); line-height:1.4; }
+  .switcher-arrow { font-size:12px; color:rgba(237,240,232,0.2); transition:transform 0.2s,color 0.2s; }
+  .switcher-item.active .switcher-arrow { color:rgba(58,217,255,0.5); transform:translateX(4px); }
+
+  .switcher-item.active .switcher-info::after {
+    content:''; display:block; margin-top:8px; height:1px; width:0%;
+    background:rgba(58,217,255,0.5); animation:progress 5s linear forwards;
+  }
+  @keyframes progress { to { width:100%; } }
+
+  .app-phone-wrap { flex-shrink:0; position:relative; z-index:10; }
+
+  /* ═══ PHONE ═══ */
+  .phone {
+    width: 280px; height: 580px; border-radius: 44px;
+    border: 1.5px solid rgba(255,255,255,0.1);
+    overflow: hidden; position: relative; background: #020208;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.03),
+      0 60px 140px rgba(0,0,0,0.9),
+      0 20px 40px rgba(0,0,0,0.6),
+      inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+  .phone::before {
+    content:''; position:absolute; top:11px; left:50%; transform:translateX(-50%);
+    width:96px; height:26px; background:#000; border-radius:13px; z-index:99;
+  }
+
+  /* ═══ SCREENS ═══ */
+  .screen { position:absolute; inset:0; opacity:0; transition:opacity 0.65s ease; pointer-events:none; }
+  .screen.visible { opacity:1; pointer-events:all; }
+
+  .screen-bg {
+    position:absolute; inset:0;
+    background:radial-gradient(ellipse at 65% 12%, rgba(0,28,48,0.55) 0%, #020208 52%);
+    overflow:hidden;
+  }
+
+  .earth-atmos {
+    position:absolute; bottom:-140px; left:-90px; right:-90px; height:320px;
+    border-radius:50%;
+    background:radial-gradient(ellipse at 50% 88%,rgba(6,20,50,0.85) 0%,rgba(3,10,28,0.55) 38%,transparent 62%);
+    border-top:1px solid rgba(58,217,255,0.06);
+    pointer-events:none;
+  }
+
+  .shud { position:absolute; top:47px; left:22px; right:22px; display:flex; justify-content:space-between; align-items:center; z-index:40; }
+  .shud-time { font-size:11px; color:rgba(237,240,232,0.3); }
+  .shud-badge { display:flex; align-items:center; gap:6px; font-size:9px; font-weight:700; letter-spacing:0.18em; color:rgba(0,191,204,0.9); text-transform:uppercase; }
+  .live-d { width:5px; height:5px; border-radius:50%; background:#00BFCC; box-shadow:0 0 8px rgba(0,191,204,1); animation:blink 1.9s ease-in-out infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+  .snum { position:absolute; top:155px; left:22px; z-index:40; }
+  .BIG { font-family:'Bebas Neue',sans-serif; font-size:88px; color:rgba(237,240,232,0.97); letter-spacing:0.01em; line-height:1; text-shadow:0 0 80px rgba(255,255,255,0.1); }
+  .BIG-l { font-size:9px; font-weight:600; letter-spacing:0.22em; color:rgba(237,240,232,0.22); text-transform:uppercase; margin-top:5px; }
+
+  .ssec { position:absolute; top:282px; left:22px; z-index:40; display:flex; }
+  .ssec-item { display:flex; flex-direction:column; gap:3px; padding:0 14px 0 0; }
+  .ssec-item+.ssec-item { padding:0 0 0 14px; border-left:1px solid rgba(237,240,232,0.08); }
+  .ssec-v { font-family:'Bebas Neue',sans-serif; font-size:30px; color:rgba(237,240,232,0.5); letter-spacing:0.03em; line-height:1; }
+  .ssec-l { font-size:7.5px; font-weight:600; letter-spacing:0.16em; color:rgba(237,240,232,0.18); text-transform:uppercase; }
+
+  .sfoot { position:absolute; bottom:0; left:0; right:0; padding:44px 22px 20px; background:linear-gradient(to bottom,transparent,rgba(2,4,14,0.8) 28%,rgba(2,4,14,0.97) 65%); z-index:40; }
+  .sfoot-name { font-family:'Bebas Neue',sans-serif; font-size:19px; letter-spacing:0.14em; color:rgba(237,240,232,0.88); margin-bottom:3px; }
+  .sfoot-sub { font-size:9px; letter-spacing:0.12em; color:rgba(237,240,232,0.25); text-transform:uppercase; }
+  .home-line { position:absolute; bottom:8px; left:50%; transform:translateX(-50%); width:36px; height:2px; border-radius:1px; background:rgba(237,240,232,0.18); z-index:40; }
+
+  .bsvg { position:absolute; inset:0; width:280px; height:580px; pointer-events:none; z-index:20; overflow:visible; }
+
+  /* ═══ SCREEN 2 STYLES ═══ */
+  .s2-bg { position:absolute; inset:0; background:#020208; overflow:hidden; }
+  .s2-topbar { position:absolute; top:46px; left:20px; right:20px; display:flex; justify-content:space-between; align-items:center; z-index:40; }
+  .s2-x { font-size:16px; font-weight:300; color:rgba(237,240,232,0.3); }
+  .s2-wm { font-family:'Bebas Neue',sans-serif; font-size:15px; letter-spacing:0.22em; color:#edf0e8; }
+  .s2-q { width:18px; height:18px; border-radius:50%; border:1px solid rgba(237,240,232,0.18); display:flex; align-items:center; justify-content:center; font-size:9px; color:rgba(237,240,232,0.3); font-weight:600; }
+  .s2-steps-area { position:absolute; top:90px; bottom:110px; left:0; right:0; z-index:25; }
+  .s2-psvg { position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+  .s2-step-row { position:absolute; left:calc(50% + 22px); display:flex; align-items:center; gap:8px; transform:translateY(-50%); z-index:40; }
+  .s2-step-row .stl { font-size:9px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; white-space:nowrap; }
+  .s2-step-row.done .stl { color:rgba(0,191,204,0.7); }
+  .s2-step-row.active .stl { color:rgba(237,240,232,0.9); font-size:10px; }
+  .s2-step-row.future .stl { color:rgba(237,240,232,0.2); }
+  .s2-step-row .ck { font-size:8px; color:rgba(0,191,204,0.5); }
+  .s2-ctx { position:absolute; left:calc(50% + 22px); z-index:40; font-size:9px; color:rgba(237,240,232,0.3); line-height:1.5; max-width:110px; }
+  .s2-foot { position:absolute; bottom:0; left:0; right:0; padding:0 20px 22px; z-index:40; }
+  .s2-cta { display:block; width:100%; padding:14px; background:#fff; border-radius:14px; font-size:11px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:#020208; text-align:center; box-shadow:0 0 50px rgba(255,255,255,0.1); }
+  .s2-micro { font-size:9px; color:rgba(237,240,232,0.2); text-align:center; margin-top:8px; letter-spacing:0.08em; }
+
+  /* ═══ SCREEN 3: ACCOUNT ═══ */
+  .s3-bg { position:absolute; inset:0; background:#020208; overflow:hidden; }
+
+  /* Name */
+  .acct-name {
+    position:absolute; top:76px; left:22px; right:22px; z-index:40;
+  }
+  .acct-first {
+    font-family:'Bebas Neue',sans-serif; font-size:54px;
+    color:rgba(237,240,232,0.97); letter-spacing:0.04em; line-height:1;
+    text-shadow: 0 0 60px rgba(58,217,255,0.06);
+  }
+  .acct-last {
+    font-family:'Bebas Neue',sans-serif; font-size:54px;
+    color:rgba(237,240,232,0.22); letter-spacing:0.04em; line-height:1;
+    margin-top:-3px;
+  }
+
+  /* Plan + status row */
+  .acct-status {
+    position:absolute; top:190px; left:22px; z-index:40;
+    display:flex; align-items:center; gap:10px;
+  }
+  .plan-pill {
+    font-size:8px; font-weight:700; letter-spacing:0.18em;
+    color:rgba(0,191,204,0.85); text-transform:uppercase;
+    background:rgba(0,191,204,0.08); border:1px solid rgba(0,191,204,0.22);
+    border-radius:4px; padding:3px 10px;
+  }
+  .online-pill {
+    display:flex; align-items:center; gap:5px;
+    font-size:8px; font-weight:600; letter-spacing:0.14em;
+    color:rgba(237,240,232,0.35); text-transform:uppercase;
+  }
+  .online-pip {
+    width:4px; height:4px; border-radius:50%; background:#00BFCC;
+    box-shadow:0 0 6px rgba(0,191,204,0.9); animation:blink 1.9s ease-in-out infinite;
+  }
+
+  /* Data arc — the hero element of the account screen */
+  .data-arc-wrap {
+    position:absolute; top:216px; left:50%; transform:translateX(-50%);
+    z-index:40;
+  }
+
+  /* Terminal mini-arc */
+  .terminal-arc {
+    position:absolute; top:384px; left:22px; right:22px;
+    z-index:40;
+  }
+
+  /* Action grid */
+  .acct-actions {
+    position:absolute; top:440px; left:22px; right:22px;
+    display:grid; grid-template-columns:1fr 1fr; gap:7px; z-index:40;
+  }
+
+  .acct-action {
+    background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07);
+    border-radius:11px; padding:11px 12px;
+    display:flex; align-items:center; gap:9px;
+  }
+
+  .acct-action svg { flex-shrink:0; opacity:0.45; }
+
+  .acct-action-lbl {
+    font-size:8.5px; font-weight:700; letter-spacing:0.14em;
+    text-transform:uppercase; color:rgba(237,240,232,0.5);
+  }
+
+  /* Sign out */
+  .acct-signout {
+    position:absolute; bottom:18px; left:0; right:0;
+    text-align:center; z-index:40;
+  }
+  .acct-signout span {
+    font-size:9px; font-weight:600; letter-spacing:0.18em;
+    text-transform:uppercase; color:rgba(237,240,232,0.2);
+    border-bottom:1px solid rgba(237,240,232,0.1); padding-bottom:2px;
+  }
+
+  /* next section */
+  .next-section {
+    padding:48px 90px; border-top:1px solid rgba(237,240,232,0.06);
+    opacity:0.35; display:flex; justify-content:space-between; align-items:center;
+  }
+  .next-section .wm { font-family:'Bebas Neue',sans-serif; font-size:48px; letter-spacing:0.02em; color:#edf0e8; opacity:0.5; }
+  .next-section .hint { font-size:11px; color:rgba(237,240,232,0.3); letter-spacing:0.1em; text-transform:uppercase; }
+</style>
+</head>
+<body>
+
+<div class="page-ctx">
+  <p class="label">Full Section Design · v2</p>
+  <h1>Three Screens, One Language</h1>
+  <p>Screen 3 is now your Account — identity as a space mission. Click items on the left or let it auto-cycle.</p>
+</div>
+
+<div class="site-mock">
+
+  <div class="prev-section">
+    <span class="wm">Choose a Plan</span>
+    <span class="hint">↑ Previous Section</span>
+  </div>
+
+  <!-- ═══════════════════ SECTION ═══════════════════ -->
+  <section class="app-section">
+
+    <div class="app-copy">
+      <div class="app-eyebrow">
+        <div class="app-eyebrow-line"></div>
+        <span class="app-eyebrow-text">Companion App</span>
+      </div>
+
+      <h2 class="app-heading">
+        YOUR SKY.<br>
+        <em>IN YOUR</em><br>
+        HAND.
+      </h2>
+
+      <p class="app-body">
+        The Starlink companion app gives you a live view of your connection to space — from first contact to full transmission, and everything in between.
+      </p>
+
+      <div class="screen-switcher">
+
+        <div class="switcher-item active" onclick="switchScreen(0,this)">
+          <span class="switcher-num">01</span>
+          <div class="switcher-info">
+            <div class="switcher-title">The Beam</div>
+            <div class="switcher-desc">Live signal visualization. Your connection to a satellite 340 miles up, always in view.</div>
+          </div>
+          <span class="switcher-arrow">→</span>
+        </div>
+
+        <div class="switcher-item" onclick="switchScreen(1,this)">
+          <span class="switcher-num">02</span>
+          <div class="switcher-info">
+            <div class="switcher-title">First Contact</div>
+            <div class="switcher-desc">Setup reimagined as a signal climbing from Earth to orbit. Progress is spatial.</div>
+          </div>
+          <span class="switcher-arrow">→</span>
+        </div>
+
+        <div class="switcher-item" onclick="switchScreen(2,this)">
+          <span class="switcher-num">03</span>
+          <div class="switcher-info">
+            <div class="switcher-title">Your Profile</div>
+            <div class="switcher-desc">Identity, terminal, data arc. Your account seen through the lens of the beam.</div>
+          </div>
+          <span class="switcher-arrow">→</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Phone -->
+    <div class="app-phone-wrap">
+      <div class="phone">
+
+        <!-- ══ SCREEN 1: THE BEAM ══ -->
+        <div class="screen visible" id="s1">
+          <div class="screen-bg"><div class="earth-atmos"></div></div>
+          <div class="shud">
+            <span class="shud-time">4:20</span>
+            <span class="shud-badge"><span class="live-d"></span>Online</span>
+          </div>
+          <div class="snum">
+            <div class="BIG">348</div>
+            <div class="BIG-l">↓ Mbps Download</div>
+          </div>
+          <div class="ssec">
+            <div class="ssec-item"><div class="ssec-v">49</div><div class="ssec-l">↑ Mbps Up</div></div>
+            <div class="ssec-item"><div class="ssec-v">32</div><div class="ssec-l">ms Latency</div></div>
+          </div>
+
+          <svg class="bsvg" viewBox="0 0 280 580" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+            <defs>
+              <linearGradient id="bG1" x1="62" y1="528" x2="220" y2="110" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="rgba(237,240,232,0.75)"/>
+                <stop offset="100%" stop-color="rgba(58,217,255,0.98)"/>
+              </linearGradient>
+              <radialGradient id="dlPt"><stop offset="0%" stop-color="rgba(140,240,255,1)"/><stop offset="100%" stop-color="rgba(58,217,255,0.6)"/></radialGradient>
+              <filter id="sG"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+            <circle cx="38" cy="66" r="0.8" fill="rgba(255,255,255,0.5)"/>
+            <circle cx="196" cy="55" r="0.7" fill="rgba(255,255,255,0.35)"/>
+            <circle cx="260" cy="92" r="0.9" fill="rgba(255,255,255,0.4)"/>
+            <circle cx="22" cy="145" r="0.6" fill="rgba(255,255,255,0.28)"/>
+            <circle cx="268" cy="180" r="0.7" fill="rgba(255,255,255,0.22)"/>
+            <circle cx="72" cy="86" r="0.6" fill="rgba(255,255,255,0.32)"/>
+            <circle cx="152" cy="60" r="0.5" fill="rgba(255,255,255,0.25)"/>
+
+            <path d="M -24 167 Q 140 46 304 167" stroke="rgba(255,255,255,0.055)" stroke-width="1" stroke-dasharray="2 6" fill="none"/>
+
+            <circle cx="24" cy="127" r="3.5" fill="rgba(237,240,232,0.1)"/>
+            <text x="24" y="141" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7" font-weight="600" letter-spacing="1" fill="rgba(237,240,232,0.2)">SETTINGS</text>
+            <circle cx="93" cy="88" r="3.5" fill="rgba(237,240,232,0.1)"/>
+            <text x="93" y="102" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7" font-weight="600" letter-spacing="1" fill="rgba(237,240,232,0.2)">NETWORK</text>
+            <circle cx="173" cy="82" r="3.5" fill="rgba(237,240,232,0.1)"/>
+            <text x="173" y="96" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7" font-weight="600" letter-spacing="1" fill="rgba(237,240,232,0.2)">SPEED</text>
+
+            <circle cx="220" cy="110" r="14" fill="rgba(58,217,255,0.04)"><animate attributeName="r" values="10;22;10" dur="3.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.5;0;0.5" dur="3.2s" repeatCount="indefinite"/></circle>
+            <circle cx="220" cy="110" r="8" fill="rgba(58,217,255,0.07)"><animate attributeName="r" values="8;17;8" dur="3.2s" repeatCount="indefinite" begin="0.4s"/><animate attributeName="opacity" values="0.4;0;0.4" dur="3.2s" repeatCount="indefinite" begin="0.4s"/></circle>
+            <circle cx="220" cy="110" r="4.5" fill="rgba(255,255,255,0.95)" filter="url(#sG)"/>
+            <circle cx="220" cy="110" r="7" fill="none" stroke="rgba(58,217,255,0.35)" stroke-width="1"/>
+            <text x="220" y="124" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7.5" font-weight="700" letter-spacing="1" fill="rgba(255,255,255,0.55)">HOME</text>
+
+            <line x1="62" y1="528" x2="220" y2="110" stroke="rgba(255,255,255,0.03)" stroke-width="30" stroke-linecap="round"/>
+            <line x1="62" y1="528" x2="220" y2="110" stroke="rgba(255,255,255,0.055)" stroke-width="11" stroke-linecap="round"/>
+            <line x1="62" y1="528" x2="220" y2="110" stroke="url(#bG1)" stroke-width="1.5" stroke-linecap="round"/>
+
+            <path id="dl1" d="M 220 110 L 62 528" fill="none" stroke="none"/>
+            <path id="ul1" d="M 62 528 L 220 110" fill="none" stroke="none"/>
+
+            <circle r="2.8" fill="url(#dlPt)"><animateMotion dur="1.55s" repeatCount="indefinite" begin="0s"><mpath href="#dl1"/></animateMotion></circle>
+            <circle r="2.2" fill="rgba(120,235,255,0.9)"><animateMotion dur="1.55s" repeatCount="indefinite" begin="0.31s"><mpath href="#dl1"/></animateMotion></circle>
+            <circle r="2.8" fill="url(#dlPt)"><animateMotion dur="1.55s" repeatCount="indefinite" begin="0.62s"><mpath href="#dl1"/></animateMotion></circle>
+            <circle r="2.0" fill="rgba(180,248,255,0.85)"><animateMotion dur="1.55s" repeatCount="indefinite" begin="0.93s"><mpath href="#dl1"/></animateMotion></circle>
+            <circle r="2.5" fill="url(#dlPt)"><animateMotion dur="1.55s" repeatCount="indefinite" begin="1.24s"><mpath href="#dl1"/></animateMotion></circle>
+            <circle r="1.6" fill="rgba(237,240,232,0.65)"><animateMotion dur="2.9s" repeatCount="indefinite" begin="0s"><mpath href="#ul1"/></animateMotion></circle>
+            <circle r="1.3" fill="rgba(237,240,232,0.45)"><animateMotion dur="2.9s" repeatCount="indefinite" begin="1.45s"><mpath href="#ul1"/></animateMotion></circle>
+
+            <rect x="50" y="519" width="24" height="14" rx="3" fill="rgba(237,240,232,0.65)" transform="rotate(-19, 62, 526)"/>
+            <line x1="62" y1="533" x2="62" y2="544" stroke="rgba(237,240,232,0.3)" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+
+          <div class="sfoot">
+            <div class="sfoot-name">STARLINK WIFI</div>
+            <div class="sfoot-sub">3 devices · Residential</div>
+          </div>
+          <div class="home-line"></div>
+        </div>
+
+        <!-- ══ SCREEN 2: FIRST CONTACT ══ -->
+        <div class="screen" id="s2">
+          <div class="s2-bg"></div>
+          <div class="s2-topbar">
+            <span class="s2-x">✕</span>
+            <span class="s2-wm">STARLINK</span>
+            <span class="s2-q">?</span>
+          </div>
+          <div class="s2-steps-area">
+            <svg class="s2-psvg" viewBox="0 0 280 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="32" cy="84" r="0.7" fill="rgba(255,255,255,0.2)"/>
+              <circle cx="236" cy="62" r="0.7" fill="rgba(255,255,255,0.25)"/>
+              <circle cx="84" cy="210" r="0.6" fill="rgba(255,255,255,0.18)"/>
+              <circle cx="214" cy="295" r="0.6" fill="rgba(255,255,255,0.2)"/>
+              <line x1="140" y1="10" x2="140" y2="348" stroke="rgba(255,255,255,0.05)" stroke-width="1" stroke-dasharray="2 5"/>
+              <line x1="140" y1="322" x2="140" y2="178" stroke="rgba(255,255,255,0.08)" stroke-width="8"/>
+              <line x1="140" y1="322" x2="140" y2="178" stroke="url(#vG)"/>
+              <defs>
+                <linearGradient id="vG" x1="140" y1="322" x2="140" y2="178" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="rgba(237,240,232,0.55)"/>
+                  <stop offset="100%" stop-color="rgba(255,255,255,0.95)"/>
+                </linearGradient>
+              </defs>
+              <path id="vp" d="M 140 322 L 140 178" fill="none" stroke="none"/>
+              <circle r="2.5" fill="rgba(255,255,255,0.9)"><animateMotion dur="1.4s" repeatCount="indefinite" begin="0s"><mpath href="#vp"/></animateMotion></circle>
+              <circle r="1.8" fill="rgba(58,217,255,0.8)"><animateMotion dur="1.4s" repeatCount="indefinite" begin="0.46s"><mpath href="#vp"/></animateMotion></circle>
+              <circle r="2.0" fill="rgba(255,255,255,0.7)"><animateMotion dur="1.4s" repeatCount="indefinite" begin="0.92s"><mpath href="#vp"/></animateMotion></circle>
+              <circle cx="140" cy="322" r="5" fill="#00BFCC"/>
+              <circle cx="140" cy="322" r="5" fill="none" stroke="rgba(0,191,204,0.3)" stroke-width="4"/>
+              <circle cx="140" cy="250" r="5" fill="#00BFCC"/>
+              <circle cx="140" cy="250" r="5" fill="none" stroke="rgba(0,191,204,0.3)" stroke-width="4"/>
+              <circle cx="140" cy="178" r="7" fill="rgba(255,255,255,0.95)"/>
+              <circle cx="140" cy="178" r="7" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2.5"><animate attributeName="r" values="7;21;7" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.6;0;0.6" dur="2s" repeatCount="indefinite"/></circle>
+              <circle cx="140" cy="178" r="7" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><animate attributeName="r" values="7;32;7" dur="2s" repeatCount="indefinite" begin="0.4s"/><animate attributeName="opacity" values="0.4;0;0.4" dur="2s" repeatCount="indefinite" begin="0.4s"/></circle>
+              <circle cx="140" cy="100" r="4" fill="none" stroke="rgba(237,240,232,0.15)" stroke-width="1.5"/>
+              <circle cx="140" cy="28" r="4" fill="none" stroke="rgba(237,240,232,0.1)" stroke-width="1.5"/>
+              <line x1="124" y1="10" x2="132" y2="10" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+              <line x1="148" y1="10" x2="156" y2="10" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+              <rect x="133" y="7" width="7" height="7" rx="1.5" fill="rgba(255,255,255,0.6)"/>
+              <rect x="133" y="343" width="14" height="9" rx="2" fill="rgba(237,240,232,0.4)"/>
+              <line x1="140" y1="352" x2="140" y2="360" stroke="rgba(237,240,232,0.3)" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="s2-step-row future" style="top:calc(90px + 360px * 0.078)"><span class="stl">Finish</span></div>
+          <div class="s2-step-row future" style="top:calc(90px + 360px * 0.278)"><span class="stl">Configure</span></div>
+          <div class="s2-step-row active" style="top:calc(90px + 360px * 0.494)"><span class="stl">Connect</span></div>
+          <div class="s2-step-row done" style="top:calc(90px + 360px * 0.694)"><span class="stl">Power</span><span class="ck">✓</span></div>
+          <div class="s2-step-row done" style="top:calc(90px + 360px * 0.894)"><span class="stl">Setup</span><span class="ck">✓</span></div>
+          <div class="s2-ctx" style="top:calc(90px + 360px * 0.494 + 14px)">Searching for your network...</div>
+          <div class="s2-foot">
+            <div class="s2-cta">Open WiFi Settings</div>
+            <div class="s2-micro">May take up to 30 seconds to appear</div>
+          </div>
+        </div>
+
+        <!-- ══ SCREEN 3: YOUR PROFILE (ACCOUNT) ══ -->
+        <div class="screen" id="s3">
+          <div class="s3-bg">
+            <!-- Subtle top glow -->
+            <div style="position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:320px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(0,20,40,0.55) 0%,transparent 65%);pointer-events:none;"></div>
+          </div>
+
+          <!-- Stars (sparse — different from beam screens) -->
+          <svg style="position:absolute;inset:0;width:280px;height:580px;pointer-events:none;z-index:5;overflow:visible;" viewBox="0 0 280 580">
+            <circle cx="248" cy="72" r="0.7" fill="rgba(255,255,255,0.3)"/>
+            <circle cx="26"  cy="98" r="0.6" fill="rgba(255,255,255,0.25)"/>
+            <circle cx="262" cy="148" r="0.5" fill="rgba(255,255,255,0.2)"/>
+            <circle cx="18"  cy="200" r="0.6" fill="rgba(255,255,255,0.18)"/>
+          </svg>
+
+          <!-- Top bar -->
+          <div style="position:absolute;top:46px;left:20px;right:20px;display:flex;justify-content:space-between;align-items:center;z-index:40;">
+            <span style="font-size:16px;color:rgba(237,240,232,0.3);">‹</span>
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:0.2em;color:#edf0e8;">ACCOUNT</span>
+            <div style="width:26px;height:26px;border-radius:50%;border:1px solid rgba(237,240,232,0.14);display:flex;align-items:center;justify-content:center;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(237,240,232,0.38)" stroke-width="2" stroke-linecap="round">
+                <circle cx="12" cy="7" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Name — the HERO. Not a row item. A declaration. -->
+          <div class="acct-name">
+            <div class="acct-first">VIKTOR</div>
+            <div class="acct-last">HENDELMANN</div>
+          </div>
+
+          <!-- Plan + status -->
+          <div class="acct-status">
+            <span class="plan-pill">Standard</span>
+            <span class="online-pill"><span class="online-pip"></span>Active</span>
+          </div>
+
+          <!-- Data arc — the centerpiece -->
+          <div class="data-arc-wrap">
+            <svg width="152" height="152" viewBox="0 0 152 152">
+              <defs>
+                <!-- Cyan → yellow: used = almost full, tension-building -->
+                <linearGradient id="arcG" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#3ad9ff"/>
+                  <stop offset="100%" stop-color="#E8E000"/>
+                </linearGradient>
+              </defs>
+              <!-- Track -->
+              <circle cx="76" cy="76" r="62" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="7"/>
+              <!-- Used: 614 / 1000 GB = 61.4% → circumference = 2π×62 ≈ 389.6 → 389.6×0.614 ≈ 239 -->
+              <circle cx="76" cy="76" r="62" fill="none"
+                      stroke="url(#arcG)" stroke-width="7"
+                      stroke-dasharray="239 390"
+                      stroke-linecap="round"
+                      transform="rotate(-90 76 76)"/>
+              <!-- Inner glow ring -->
+              <circle cx="76" cy="76" r="62" fill="none"
+                      stroke="rgba(58,217,255,0.07)" stroke-width="16"
+                      stroke-dasharray="239 390"
+                      stroke-linecap="round"
+                      transform="rotate(-90 76 76)"/>
+              <!-- Center content -->
+              <text x="76" y="64" text-anchor="middle" font-family="Bebas Neue, sans-serif" font-size="30" fill="rgba(237,240,232,0.95)" letter-spacing="0.01em">614</text>
+              <text x="76" y="78" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="7.5" font-weight="600" fill="rgba(237,240,232,0.28)" letter-spacing="2">GB USED</text>
+              <text x="76" y="91" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="6.5" font-weight="500" fill="rgba(237,240,232,0.15)" letter-spacing="1.5">OF 1 TB</text>
+            </svg>
+          </div>
+
+          <!-- Terminal — a miniature orbital arc showing their assigned terminal -->
+          <div class="terminal-arc">
+            <svg width="236" height="46" viewBox="0 0 236 46">
+              <!-- orbital arc track -->
+              <path d="M 0 38 Q 118 6 236 38" stroke="rgba(255,255,255,0.07)" stroke-width="1" stroke-dasharray="2 4" fill="none"/>
+              <!-- Terminal satellite dot -->
+              <circle cx="166" cy="17" r="4" fill="rgba(255,255,255,0.88)"/>
+              <!-- Pulse ring -->
+              <circle cx="166" cy="17" r="4" fill="none" stroke="rgba(0,191,204,0.4)" stroke-width="1.5">
+                <animate attributeName="r" values="4;11;4" dur="2.6s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.5;0;0.5" dur="2.6s" repeatCount="indefinite"/>
+              </circle>
+              <!-- Terminal label -->
+              <text x="166" y="33" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="6.5" font-weight="700" letter-spacing="1.2" fill="rgba(237,240,232,0.38)">VIKTOR-STARLINK</text>
+              <!-- A faint dish at the arc base -->
+              <rect x="110" y="36" width="10" height="7" rx="1.5" fill="rgba(237,240,232,0.2)" transform="rotate(4, 115, 40)"/>
+            </svg>
+          </div>
+
+          <!-- 2×2 action grid -->
+          <div class="acct-actions">
+            <div class="acct-action">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(237,240,232,0.55)" stroke-width="1.8" stroke-linecap="round">
+                <path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/>
+                <rect x="9" y="3" width="6" height="4" rx="1"/>
+                <line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/>
+              </svg>
+              <span class="acct-action-lbl">Orders</span>
+            </div>
+            <div class="acct-action">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(237,240,232,0.55)" stroke-width="1.8" stroke-linecap="round">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+              <span class="acct-action-lbl">Statements</span>
+            </div>
+            <div class="acct-action">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(237,240,232,0.55)" stroke-width="1.8" stroke-linecap="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+              <span class="acct-action-lbl">Messages</span>
+            </div>
+            <div class="acct-action">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="rgba(237,240,232,0.55)" stroke-width="1.8" stroke-linecap="round">
+                <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+              </svg>
+              <span class="acct-action-lbl">Shop</span>
+            </div>
+          </div>
+
+          <!-- Sign out -->
+          <div class="acct-signout">
+            <span>Sign Out</span>
+          </div>
+          <div class="home-line"></div>
+
+        </div><!-- s3 -->
+
+      </div><!-- phone -->
+    </div><!-- phone-wrap -->
+
+  </section>
+
+  <div class="next-section">
+    <span class="wm">Footer</span>
+    <span class="hint">↓ Next Section</span>
+  </div>
+
+</div>
+
+<script>
+  const screens = ['s1','s2','s3'];
+  let current = 0;
+  let autoTimer;
+
+  function switchScreen(idx, clickedItem) {
+    screens.forEach((id,i) => {
+      document.getElementById(id).classList.toggle('visible', i===idx);
+    });
+    document.querySelectorAll('.switcher-item').forEach((item,i) => {
+      item.classList.toggle('active', i===idx);
+    });
+    current = idx;
+    clearInterval(autoTimer);
+    autoTimer = setInterval(autoAdvance, 5000);
+  }
+
+  function autoAdvance() {
+    switchScreen((current+1)%3, null);
+  }
+
+  autoTimer = setInterval(autoAdvance, 5000);
+</script>
+</body>
+</html>

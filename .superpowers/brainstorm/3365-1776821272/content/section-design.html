@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Companion App · Website Section Design</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Bebas+Neue&display=swap');
+  *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: #040409;
+    font-family: 'DM Sans', sans-serif;
+    color: #edf0e8;
+    padding: 40px 0 80px;
+  }
+
+  /* ── Page context strip ── */
+  .page-ctx {
+    text-align: center;
+    padding: 0 32px 40px;
+    border-bottom: 1px solid rgba(237,240,232,0.06);
+    margin-bottom: 0;
+  }
+  .page-ctx .label {
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    color: rgba(237,240,232,0.22);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .page-ctx h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 0.06em;
+    color: #edf0e8;
+    margin-bottom: 6px;
+  }
+  .page-ctx p {
+    font-size: 12px;
+    color: rgba(237,240,232,0.3);
+    line-height: 1.6;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* ══════════════════════════════════════════
+     THE ACTUAL WEBSITE SECTION MOCK
+     This is what the page will look like in-situ.
+     We simulate the surrounding website sections.
+  ══════════════════════════════════════════ */
+
+  .site-mock {
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  /* Fake "previous section" to show context */
+  .prev-section {
+    padding: 48px 90px 48px;
+    border-bottom: 1px solid rgba(237,240,232,0.06);
+    opacity: 0.35;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .prev-section .wm {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    letter-spacing: 0.02em;
+    color: #edf0e8;
+    opacity: 0.5;
+  }
+  .prev-section .hint {
+    font-size: 11px;
+    color: rgba(237,240,232,0.3);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ═══════════════════════════════════
+     THE APP SECTION
+  ═══════════════════════════════════ */
+  .app-section {
+    position: relative;
+    padding: 100px 90px 110px;
+    display: flex;
+    align-items: center;
+    gap: 72px;
+    overflow: hidden;
+    min-height: 680px;
+  }
+
+  /* Ambient background — ties to site's space aesthetic */
+  .app-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 70% 50%, rgba(0,28,48,0.4) 0%, transparent 60%),
+      radial-gradient(ellipse at 20% 80%, rgba(0,12,30,0.3) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  /* Left: copy */
+  .app-copy {
+    flex: 1;
+    position: relative;
+    z-index: 10;
+    min-width: 0;
+  }
+
+  .app-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .app-eyebrow-line {
+    width: 28px;
+    height: 1px;
+    background: rgba(0,191,204,0.6);
+  }
+
+  .app-eyebrow-text {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    color: rgba(0,191,204,0.8);
+    text-transform: uppercase;
+  }
+
+  .app-heading {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(44px, 4.5vw, 64px);
+    letter-spacing: 0.04em;
+    color: #edf0e8;
+    line-height: 1.0;
+    margin-bottom: 22px;
+  }
+
+  .app-heading em {
+    font-style: normal;
+    color: #3ad9ff;
+  }
+
+  .app-body {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: rgba(237,240,232,0.6);
+    max-width: 380px;
+    margin-bottom: 40px;
+  }
+
+  /* Screen switcher labels — clickable, tied to the phone */
+  .screen-switcher {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .switcher-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(237,240,232,0.07);
+    cursor: pointer;
+    transition: all 0.2s;
+    opacity: 0.4;
+  }
+
+  .switcher-item:first-child { border-top: 1px solid rgba(237,240,232,0.07); }
+
+  .switcher-item.active {
+    opacity: 1;
+  }
+
+  .switcher-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    color: rgba(237,240,232,0.35);
+    width: 20px;
+    flex-shrink: 0;
+    transition: color 0.2s;
+  }
+
+  .switcher-item.active .switcher-num { color: #3ad9ff; }
+
+  .switcher-info { flex: 1; }
+
+  .switcher-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #edf0e8;
+    margin-bottom: 2px;
+    letter-spacing: 0.01em;
+  }
+
+  .switcher-desc {
+    font-size: 11px;
+    color: rgba(237,240,232,0.4);
+    line-height: 1.4;
+  }
+
+  .switcher-arrow {
+    font-size: 12px;
+    color: rgba(237,240,232,0.2);
+    transition: transform 0.2s, color 0.2s;
+  }
+
+  .switcher-item.active .switcher-arrow {
+    color: rgba(58,217,255,0.5);
+    transform: translateX(4px);
+  }
+
+  /* Progress bar on active item */
+  .switcher-item.active .switcher-info::after {
+    content: '';
+    display: block;
+    margin-top: 8px;
+    height: 1px;
+    width: 0%;
+    background: rgba(58,217,255,0.5);
+    animation: progress 5s linear forwards;
+  }
+
+  @keyframes progress { to { width: 100%; } }
+
+  /* Right: phone */
+  .app-phone-wrap {
+    flex-shrink: 0;
+    position: relative;
+    z-index: 10;
+  }
+
+  /* ═══ PHONE SHELL ═══ */
+  .phone {
+    width: 280px;
+    height: 580px;
+    border-radius: 44px;
+    border: 1.5px solid rgba(255,255,255,0.1);
+    overflow: hidden;
+    position: relative;
+    background: #020208;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.03),
+      0 60px 140px rgba(0,0,0,0.9),
+      0 20px 40px rgba(0,0,0,0.6),
+      inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 11px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 96px;
+    height: 26px;
+    background: #000;
+    border-radius: 13px;
+    z-index: 99;
+  }
+
+  /* ═══ SCREEN LAYERS ═══ */
+  .screen {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+  }
+
+  .screen.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* Shared bg */
+  .screen-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 65% 12%, rgba(0,28,48,0.55) 0%, #020208 52%);
+    overflow: hidden;
+  }
+
+  .earth-atmos {
+    position: absolute;
+    bottom: -140px;
+    left: -90px;
+    right: -90px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at 50% 88%,
+      rgba(6,20,50,0.85) 0%,
+      rgba(3,10,28,0.55) 38%,
+      transparent 62%
+    );
+    border-top: 1px solid rgba(58,217,255,0.06);
+    pointer-events: none;
+  }
+
+  .shud {
+    position: absolute;
+    top: 47px;
+    left: 22px;
+    right: 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 40;
+  }
+
+  .shud-time { font-size: 11px; color: rgba(237,240,232,0.3); }
+
+  .shud-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: rgba(0,191,204,0.9);
+    text-transform: uppercase;
+  }
+
+  .live-d {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #00BFCC;
+    box-shadow: 0 0 8px rgba(0,191,204,1);
+    animation: blink 1.9s ease-in-out infinite;
+  }
+
+  @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0.2; } }
+
+  /* Stats */
+  .snum {
+    position: absolute;
+    top: 155px;
+    left: 22px;
+    z-index: 40;
+  }
+
+  .BIG {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 88px;
+    color: rgba(237,240,232,0.97);
+    letter-spacing: 0.01em;
+    line-height: 1;
+    text-shadow: 0 0 80px rgba(255,255,255,0.1);
+  }
+
+  .BIG-l {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: rgba(237,240,232,0.22);
+    text-transform: uppercase;
+    margin-top: 5px;
+  }
+
+  .ssec {
+    position: absolute;
+    top: 282px;
+    left: 22px;
+    z-index: 40;
+    display: flex;
+  }
+
+  .ssec-item {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 0 14px 0 0;
+  }
+
+  .ssec-item + .ssec-item {
+    padding: 0 0 0 14px;
+    border-left: 1px solid rgba(237,240,232,0.08);
+  }
+
+  .ssec-v {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    color: rgba(237,240,232,0.5);
+    letter-spacing: 0.03em;
+    line-height: 1;
+  }
+
+  .ssec-l {
+    font-size: 7.5px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    color: rgba(237,240,232,0.18);
+    text-transform: uppercase;
+  }
+
+  /* Foot */
+  .sfoot {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 44px 22px 20px;
+    background: linear-gradient(to bottom, transparent, rgba(2,4,14,0.8) 28%, rgba(2,4,14,0.97) 65%);
+    z-index: 40;
+  }
+
+  .sfoot-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 19px;
+    letter-spacing: 0.14em;
+    color: rgba(237,240,232,0.88);
+    margin-bottom: 3px;
+  }
+
+  .sfoot-sub {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: rgba(237,240,232,0.25);
+    text-transform: uppercase;
+  }
+
+  .home-line {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 2px;
+    border-radius: 1px;
+    background: rgba(237,240,232,0.18);
+    z-index: 40;
+  }
+
+  /* SVG beam overlay */
+  .bsvg {
+    position: absolute;
+    inset: 0;
+    width: 280px;
+    height: 580px;
+    pointer-events: none;
+    z-index: 20;
+    overflow: visible;
+  }
+
+  /* ═══ SCREEN 2: FIRST CONTACT ═══ */
+  .s2-bg {
+    position: absolute;
+    inset: 0;
+    background: #020208;
+    overflow: hidden;
+  }
+
+  .s2-topbar {
+    position: absolute;
+    top: 46px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 40;
+  }
+
+  .s2-x { font-size: 16px; font-weight: 300; color: rgba(237,240,232,0.3); }
+  .s2-wm { font-family:'Bebas Neue',sans-serif; font-size:15px; letter-spacing:0.22em; color:#edf0e8; }
+  .s2-q {
+    width:18px; height:18px; border-radius:50%;
+    border:1px solid rgba(237,240,232,0.18);
+    display:flex; align-items:center; justify-content:center;
+    font-size:9px; color:rgba(237,240,232,0.3); font-weight:600;
+  }
+
+  .s2-steps-area {
+    position: absolute;
+    top: 90px;
+    bottom: 110px;
+    left: 0; right: 0;
+    z-index: 25;
+  }
+
+  .s2-psvg {
+    position:absolute; inset:0; width:100%; height:100%; overflow:visible;
+  }
+
+  .s2-step-row {
+    position: absolute;
+    left: calc(50% + 22px);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transform: translateY(-50%);
+    z-index: 40;
+  }
+
+  .s2-step-row .stl {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .s2-step-row.done .stl { color: rgba(0,191,204,0.7); }
+  .s2-step-row.active .stl { color: rgba(237,240,232,0.9); font-size:10px; }
+  .s2-step-row.future .stl { color: rgba(237,240,232,0.2); }
+  .s2-step-row .ck { font-size:8px; color:rgba(0,191,204,0.5); }
+
+  .s2-ctx {
+    position: absolute;
+    left: calc(50% + 22px);
+    z-index: 40;
+    font-size: 9px;
+    color: rgba(237,240,232,0.3);
+    line-height: 1.5;
+    max-width: 110px;
+  }
+
+  .s2-foot {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 0 20px 22px;
+    z-index: 40;
+  }
+
+  .s2-cta {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: #fff;
+    border-radius: 14px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #020208;
+    text-align: center;
+    box-shadow: 0 0 50px rgba(255,255,255,0.1);
+  }
+
+  .s2-micro {
+    font-size: 9px;
+    color: rgba(237,240,232,0.2);
+    text-align: center;
+    margin-top: 8px;
+    letter-spacing: 0.08em;
+  }
+
+  /* ═══ SCREEN 3: TRANSMISSION ═══ */
+  .s3-bar {
+    position: absolute;
+    top: 46px; left: 20px; right: 20px;
+    display: flex; justify-content:space-between; align-items:center;
+    z-index: 40;
+  }
+
+  .s3-back { font-size:16px; color:rgba(237,240,232,0.35); }
+  .s3-title { font-family:'Bebas Neue',sans-serif; font-size:15px; letter-spacing:0.2em; color:#edf0e8; }
+  .s3-i {
+    width:18px; height:18px; border-radius:50%;
+    border:1px solid rgba(237,240,232,0.18);
+    display:flex; align-items:center; justify-content:center;
+    font-size:9px; color:rgba(237,240,232,0.3); font-weight:600;
+  }
+
+  .s3-dl { position:absolute; top:155px; left:22px; z-index:40; }
+  .s3-ul { position:absolute; top:306px; right:22px; text-align:right; z-index:40; }
+  .s3-ul .BIG { font-size:44px; color:rgba(58,217,255,0.9); text-shadow:0 0 30px rgba(58,217,255,0.35); }
+
+  .s3-ms {
+    position:absolute; top:267px; left:50%; transform:translateX(-50%);
+    z-index:40;
+    background:rgba(232,224,0,0.08); border:1px solid rgba(232,224,0,0.28);
+    border-radius:20px; padding:5px 14px;
+    display:flex; align-items:baseline; gap:4px; white-space:nowrap;
+  }
+
+  .s3-msn { font-family:'Bebas Neue',sans-serif; font-size:22px; color:#E8E000; letter-spacing:0.04em; line-height:1; }
+  .s3-msl { font-size:8px; letter-spacing:0.16em; color:rgba(232,224,0,0.5); text-transform:uppercase; }
+
+  .s3-foot { position:absolute; bottom:24px; left:0; right:0; text-align:center; z-index:40; }
+
+  .s3-again {
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:10px; font-weight:700; letter-spacing:0.18em;
+    text-transform:uppercase; color:rgba(237,240,232,0.38);
+    border-bottom:1px solid rgba(237,240,232,0.1); padding-bottom:2px;
+  }
+
+  .s3-adv {
+    font-size:8px; color:rgba(237,240,232,0.16);
+    letter-spacing:0.16em; text-transform:uppercase; margin-top:10px;
+  }
+
+  /* Fake next section */
+  .next-section {
+    padding: 48px 90px;
+    border-top: 1px solid rgba(237,240,232,0.06);
+    opacity: 0.35;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .next-section .wm {
+    font-family:'Bebas Neue',sans-serif;
+    font-size:48px;
+    letter-spacing:0.02em;
+    color:#edf0e8;
+    opacity:0.5;
+  }
+
+  .next-section .hint {
+    font-size:11px;
+    color:rgba(237,240,232,0.3);
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-ctx">
+  <p class="label">Full Design Preview · In Context</p>
+  <h1>Companion App Section</h1>
+  <p>This is how the section will sit inside the website. Scroll down to see it in context between the Plans section and Footer. Click the screen names on the left to navigate between app screens.</p>
+</div>
+
+<div class="site-mock">
+
+  <!-- Fake previous section -->
+  <div class="prev-section">
+    <span class="wm">Choose a Plan</span>
+    <span class="hint">↑ Previous Section</span>
+  </div>
+
+  <!-- ═══════════════════ THE REAL SECTION ═══════════════════ -->
+  <section class="app-section">
+
+    <!-- Left: copy + switcher -->
+    <div class="app-copy">
+
+      <div class="app-eyebrow">
+        <div class="app-eyebrow-line"></div>
+        <span class="app-eyebrow-text">Companion App</span>
+      </div>
+
+      <h2 class="app-heading">
+        YOUR SKY.<br>
+        <em>IN YOUR</em><br>
+        HAND.
+      </h2>
+
+      <p class="app-body">
+        The Starlink companion app gives you a live view of your connection to space. Watch data stream between your dish and the satellite it's locked to — in real time.
+      </p>
+
+      <!-- Screen switcher — this IS the navigation for the phone on the right -->
+      <div class="screen-switcher">
+
+        <div class="switcher-item active" onclick="switchScreen(0, this)">
+          <span class="switcher-num">01</span>
+          <div class="switcher-info">
+            <div class="switcher-title">The Beam</div>
+            <div class="switcher-desc">Live signal visualization. Your connection to a satellite 340 miles up, always in view.</div>
+          </div>
+          <span class="switcher-arrow">→</span>
+        </div>
+
+        <div class="switcher-item" onclick="switchScreen(1, this)">
+          <span class="switcher-num">02</span>
+          <div class="switcher-info">
+            <div class="switcher-title">First Contact</div>
+            <div class="switcher-desc">Setup reimagined as a signal climbing from Earth to orbit. Progress is spatial.</div>
+          </div>
+          <span class="switcher-arrow">→</span>
+        </div>
+
+        <div class="switcher-item" onclick="switchScreen(2, this)">
+          <span class="switcher-num">03</span>
+          <div class="switcher-info">
+            <div class="switcher-title">Transmission</div>
+            <div class="switcher-desc">Speed test as a live data event. Watch packets race up and down the beam.</div>
+          </div>
+          <span class="switcher-arrow">→</span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Right: phone -->
+    <div class="app-phone-wrap">
+      <div class="phone" id="phone">
+
+        <!-- ══ SCREEN 1: THE BEAM ══ -->
+        <div class="screen visible" id="s1">
+          <div class="screen-bg">
+            <div class="earth-atmos"></div>
+          </div>
+
+          <div class="shud">
+            <span class="shud-time">4:20</span>
+            <span class="shud-badge"><span class="live-d"></span>Online</span>
+          </div>
+
+          <div class="snum">
+            <div class="BIG">348</div>
+            <div class="BIG-l">↓ Mbps Download</div>
+          </div>
+
+          <div class="ssec">
+            <div class="ssec-item">
+              <div class="ssec-v">49</div>
+              <div class="ssec-l">↑ Mbps Up</div>
+            </div>
+            <div class="ssec-item">
+              <div class="ssec-v">32</div>
+              <div class="ssec-l">ms Latency</div>
+            </div>
+          </div>
+
+          <svg class="bsvg" viewBox="0 0 280 580" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+            <defs>
+              <linearGradient id="bG1" x1="62" y1="528" x2="220" y2="110" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="rgba(237,240,232,0.75)"/>
+                <stop offset="100%" stop-color="rgba(58,217,255,0.98)"/>
+              </linearGradient>
+              <radialGradient id="dlPt"><stop offset="0%" stop-color="rgba(140,240,255,1)"/><stop offset="100%" stop-color="rgba(58,217,255,0.6)"/></radialGradient>
+              <filter id="sG"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+
+            <!-- Stars -->
+            <circle cx="38"  cy="66"  r="0.8" fill="rgba(255,255,255,0.5)"/>
+            <circle cx="196" cy="55"  r="0.7" fill="rgba(255,255,255,0.35)"/>
+            <circle cx="260" cy="92"  r="0.9" fill="rgba(255,255,255,0.4)"/>
+            <circle cx="22"  cy="145" r="0.6" fill="rgba(255,255,255,0.28)"/>
+            <circle cx="268" cy="180" r="0.7" fill="rgba(255,255,255,0.22)"/>
+            <circle cx="72"  cy="86"  r="0.6" fill="rgba(255,255,255,0.32)"/>
+            <circle cx="152" cy="60"  r="0.5" fill="rgba(255,255,255,0.25)"/>
+
+            <!-- Orbital nav arc -->
+            <path d="M -24 167 Q 140 46 304 167" stroke="rgba(255,255,255,0.055)" stroke-width="1" stroke-dasharray="2 6" fill="none"/>
+
+            <!-- NAV: SETTINGS -->
+            <circle cx="24" cy="127" r="3.5" fill="rgba(237,240,232,0.1)"/>
+            <text x="24" y="141" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7" font-weight="600" letter-spacing="1.2" fill="rgba(237,240,232,0.2)">SETTINGS</text>
+
+            <!-- NAV: NETWORK -->
+            <circle cx="93" cy="88" r="3.5" fill="rgba(237,240,232,0.1)"/>
+            <text x="93" y="102" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7" font-weight="600" letter-spacing="1.2" fill="rgba(237,240,232,0.2)">NETWORK</text>
+
+            <!-- NAV: SPEED -->
+            <circle cx="173" cy="82" r="3.5" fill="rgba(237,240,232,0.1)"/>
+            <text x="173" y="96" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7" font-weight="600" letter-spacing="1.2" fill="rgba(237,240,232,0.2)">SPEED</text>
+
+            <!-- NAV: HOME ★ active -->
+            <circle cx="220" cy="110" r="14" fill="rgba(58,217,255,0.04)"><animate attributeName="r" values="10;22;10" dur="3.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.5;0;0.5" dur="3.2s" repeatCount="indefinite"/></circle>
+            <circle cx="220" cy="110" r="8" fill="rgba(58,217,255,0.07)"><animate attributeName="r" values="8;17;8" dur="3.2s" repeatCount="indefinite" begin="0.4s"/><animate attributeName="opacity" values="0.4;0;0.4" dur="3.2s" repeatCount="indefinite" begin="0.4s"/></circle>
+            <circle cx="220" cy="110" r="4.5" fill="rgba(255,255,255,0.95)" filter="url(#sG)"/>
+            <circle cx="220" cy="110" r="7" fill="none" stroke="rgba(58,217,255,0.35)" stroke-width="1"/>
+            <text x="220" y="124" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="7.5" font-weight="700" letter-spacing="1.2" fill="rgba(255,255,255,0.55)">HOME</text>
+
+            <!-- Beam -->
+            <line x1="62" y1="528" x2="220" y2="110" stroke="rgba(255,255,255,0.03)" stroke-width="30" stroke-linecap="round"/>
+            <line x1="62" y1="528" x2="220" y2="110" stroke="rgba(255,255,255,0.055)" stroke-width="11" stroke-linecap="round"/>
+            <line x1="62" y1="528" x2="220" y2="110" stroke="url(#bG1)" stroke-width="1.5" stroke-linecap="round"/>
+
+            <path id="dl1" d="M 220 110 L 62 528" fill="none" stroke="none"/>
+            <path id="ul1" d="M 62 528 L 220 110" fill="none" stroke="none"/>
+
+            <!-- DL particles -->
+            <circle r="2.8" fill="url(#dlPt)"><animateMotion dur="1.55s" repeatCount="indefinite" begin="0s"><mpath href="#dl1"/></animateMotion></circle>
+            <circle r="2.2" fill="rgba(120,235,255,0.9)"><animateMotion dur="1.55s" repeatCount="indefinite" begin="0.31s"><mpath href="#dl1"/></animateMotion></circle>
+            <circle r="2.8" fill="url(#dlPt)"><animateMotion dur="1.55s" repeatCount="indefinite" begin="0.62s"><mpath href="#dl1"/></animateMotion></circle>
+            <circle r="2.0" fill="rgba(180,248,255,0.85)"><animateMotion dur="1.55s" repeatCount="indefinite" begin="0.93s"><mpath href="#dl1"/></animateMotion></circle>
+            <circle r="2.5" fill="url(#dlPt)"><animateMotion dur="1.55s" repeatCount="indefinite" begin="1.24s"><mpath href="#dl1"/></animateMotion></circle>
+
+            <!-- UL particles -->
+            <circle r="1.6" fill="rgba(237,240,232,0.65)"><animateMotion dur="2.9s" repeatCount="indefinite" begin="0s"><mpath href="#ul1"/></animateMotion></circle>
+            <circle r="1.3" fill="rgba(237,240,232,0.45)"><animateMotion dur="2.9s" repeatCount="indefinite" begin="1.45s"><mpath href="#ul1"/></animateMotion></circle>
+
+            <!-- Dish -->
+            <rect x="50" y="519" width="24" height="14" rx="3" fill="rgba(237,240,232,0.65)" transform="rotate(-19, 62, 526)"/>
+            <line x1="62" y1="533" x2="62" y2="544" stroke="rgba(237,240,232,0.3)" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+
+          <div class="sfoot">
+            <div class="sfoot-name">STARLINK WIFI</div>
+            <div class="sfoot-sub">3 devices · Residential</div>
+          </div>
+          <div class="home-line"></div>
+        </div>
+
+        <!-- ══ SCREEN 2: FIRST CONTACT ══ -->
+        <div class="screen" id="s2">
+          <div class="s2-bg"></div>
+
+          <div class="s2-topbar">
+            <span class="s2-x">✕</span>
+            <span class="s2-wm">STARLINK</span>
+            <span class="s2-q">?</span>
+          </div>
+
+          <div class="s2-steps-area">
+            <svg class="s2-psvg" viewBox="0 0 280 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Stars -->
+              <circle cx="32" cy="84" r="0.7" fill="rgba(255,255,255,0.2)"/>
+              <circle cx="236" cy="62" r="0.7" fill="rgba(255,255,255,0.25)"/>
+              <circle cx="84" cy="210" r="0.6" fill="rgba(255,255,255,0.18)"/>
+              <circle cx="214" cy="295" r="0.6" fill="rgba(255,255,255,0.2)"/>
+
+              <!-- Track -->
+              <line x1="140" y1="10" x2="140" y2="348" stroke="rgba(255,255,255,0.05)" stroke-width="1" stroke-dasharray="2 5"/>
+
+              <!-- Lit beam: SETUP(320) to CONNECT(178) -->
+              <line x1="140" y1="322" x2="140" y2="178" stroke="rgba(255,255,255,0.08)" stroke-width="8"/>
+              <line x1="140" y1="322" x2="140" y2="178" stroke="url(#vG)"/>
+
+              <defs>
+                <linearGradient id="vG" x1="140" y1="322" x2="140" y2="178" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="rgba(237,240,232,0.55)"/>
+                  <stop offset="100%" stop-color="rgba(255,255,255,0.95)"/>
+                </linearGradient>
+              </defs>
+
+              <!-- Signal climbing -->
+              <path id="vp" d="M 140 322 L 140 178" fill="none" stroke="none"/>
+              <circle r="2.5" fill="rgba(255,255,255,0.9)"><animateMotion dur="1.4s" repeatCount="indefinite" begin="0s"><mpath href="#vp"/></animateMotion></circle>
+              <circle r="1.8" fill="rgba(58,217,255,0.8)"><animateMotion dur="1.4s" repeatCount="indefinite" begin="0.46s"><mpath href="#vp"/></animateMotion></circle>
+              <circle r="2.0" fill="rgba(255,255,255,0.7)"><animateMotion dur="1.4s" repeatCount="indefinite" begin="0.92s"><mpath href="#vp"/></animateMotion></circle>
+
+              <!-- NODES -->
+              <!-- SETUP — done -->
+              <circle cx="140" cy="322" r="5" fill="#00BFCC"/>
+              <circle cx="140" cy="322" r="5" fill="none" stroke="rgba(0,191,204,0.3)" stroke-width="4"/>
+
+              <!-- POWER — done -->
+              <circle cx="140" cy="250" r="5" fill="#00BFCC"/>
+              <circle cx="140" cy="250" r="5" fill="none" stroke="rgba(0,191,204,0.3)" stroke-width="4"/>
+
+              <!-- CONNECT — active -->
+              <circle cx="140" cy="178" r="7" fill="rgba(255,255,255,0.95)"/>
+              <circle cx="140" cy="178" r="7" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2.5"><animate attributeName="r" values="7;21;7" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.6;0;0.6" dur="2s" repeatCount="indefinite"/></circle>
+              <circle cx="140" cy="178" r="7" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><animate attributeName="r" values="7;32;7" dur="2s" repeatCount="indefinite" begin="0.4s"/><animate attributeName="opacity" values="0.4;0;0.4" dur="2s" repeatCount="indefinite" begin="0.4s"/></circle>
+
+              <!-- CONFIGURE — future -->
+              <circle cx="140" cy="100" r="4" fill="none" stroke="rgba(237,240,232,0.15)" stroke-width="1.5"/>
+
+              <!-- FINISH — future -->
+              <circle cx="140" cy="28" r="4" fill="none" stroke="rgba(237,240,232,0.1)" stroke-width="1.5"/>
+
+              <!-- Satellite at top -->
+              <line x1="124" y1="10" x2="132" y2="10" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+              <line x1="148" y1="10" x2="156" y2="10" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+              <rect x="133" y="7" width="7" height="7" rx="1.5" fill="rgba(255,255,255,0.6)"/>
+
+              <!-- Dish at bottom -->
+              <rect x="133" y="343" width="14" height="9" rx="2" fill="rgba(237,240,232,0.4)"/>
+              <line x1="140" y1="352" x2="140" y2="360" stroke="rgba(237,240,232,0.3)" stroke-width="1.5"/>
+            </svg>
+          </div>
+
+          <!-- Step labels -->
+          <div class="s2-step-row future" style="top: calc(90px + 360px * 0.078)"><span class="stl">Finish</span></div>
+          <div class="s2-step-row future" style="top: calc(90px + 360px * 0.278)"><span class="stl">Configure</span></div>
+          <div class="s2-step-row active" style="top: calc(90px + 360px * 0.494)"><span class="stl">Connect</span></div>
+          <div class="s2-step-row done"   style="top: calc(90px + 360px * 0.694)"><span class="stl">Power</span><span class="ck">✓</span></div>
+          <div class="s2-step-row done"   style="top: calc(90px + 360px * 0.894)"><span class="stl">Setup</span><span class="ck">✓</span></div>
+
+          <div class="s2-ctx" style="top: calc(90px + 360px * 0.494 + 14px)">Searching for your network...</div>
+
+          <div class="s2-foot">
+            <div class="s2-cta">Open WiFi Settings</div>
+            <div class="s2-micro">May take up to 30 seconds to appear</div>
+          </div>
+        </div>
+
+        <!-- ══ SCREEN 3: TRANSMISSION ══ -->
+        <div class="screen" id="s3">
+          <div class="screen-bg">
+            <div class="earth-atmos"></div>
+          </div>
+
+          <div class="s3-bar">
+            <span class="s3-back">‹</span>
+            <span class="s3-title">Speed Test</span>
+            <span class="s3-i">i</span>
+          </div>
+
+          <div class="s3-dl">
+            <div class="BIG">348</div>
+            <div class="BIG-l">↓ Mbps Download</div>
+          </div>
+
+          <div class="s3-ms">
+            <span class="s3-msn">32</span>
+            <span class="s3-msl">ms</span>
+          </div>
+
+          <div class="s3-ul">
+            <div class="BIG" style="font-size:44px;color:rgba(58,217,255,0.9);text-shadow:0 0 30px rgba(58,217,255,0.4)">49</div>
+            <div class="BIG-l" style="text-align:right">↑ Mbps Upload</div>
+          </div>
+
+          <svg class="bsvg" viewBox="0 0 280 580" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+            <defs>
+              <linearGradient id="bG3" x1="220" y1="110" x2="62" y2="528" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="rgba(58,217,255,0.98)"/>
+                <stop offset="100%" stop-color="rgba(58,217,255,0.4)"/>
+              </linearGradient>
+              <radialGradient id="dlPt3"><stop offset="0%" stop-color="rgba(140,240,255,1)"/><stop offset="100%" stop-color="rgba(58,217,255,0.6)"/></radialGradient>
+              <filter id="sG3"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+
+            <!-- Stars -->
+            <circle cx="42" cy="60" r="0.8" fill="rgba(255,255,255,0.5)"/>
+            <circle cx="204" cy="46" r="0.7" fill="rgba(255,255,255,0.35)"/>
+            <circle cx="256" cy="98" r="0.9" fill="rgba(255,255,255,0.4)"/>
+            <circle cx="20" cy="168" r="0.6" fill="rgba(255,255,255,0.28)"/>
+            <circle cx="70" cy="88" r="0.6" fill="rgba(255,255,255,0.32)"/>
+
+            <!-- Orbital arc -->
+            <path d="M -24 167 Q 140 46 304 167" stroke="rgba(255,255,255,0.04)" stroke-width="1" stroke-dasharray="2 6" fill="none"/>
+
+            <!-- Beam -->
+            <line x1="62" y1="528" x2="220" y2="110" stroke="rgba(255,255,255,0.03)" stroke-width="30" stroke-linecap="round"/>
+            <line x1="62" y1="528" x2="220" y2="110" stroke="rgba(255,255,255,0.055)" stroke-width="12" stroke-linecap="round"/>
+            <line x1="62" y1="528" x2="220" y2="110" stroke="url(#bG3)" stroke-width="1.5" stroke-linecap="round"/>
+
+            <path id="dl3" d="M 220 110 L 62 528" fill="none" stroke="none"/>
+            <path id="ul3" d="M 62 528 L 220 110" fill="none" stroke="none"/>
+
+            <!-- DL particles — fast, many -->
+            <circle r="3.0" fill="url(#dlPt3)"><animateMotion dur="1.35s" repeatCount="indefinite" begin="0s"><mpath href="#dl3"/></animateMotion></circle>
+            <circle r="2.4" fill="rgba(120,235,255,0.9)"><animateMotion dur="1.35s" repeatCount="indefinite" begin="0.27s"><mpath href="#dl3"/></animateMotion></circle>
+            <circle r="3.0" fill="url(#dlPt3)"><animateMotion dur="1.35s" repeatCount="indefinite" begin="0.54s"><mpath href="#dl3"/></animateMotion></circle>
+            <circle r="2.0" fill="rgba(180,248,255,0.85)"><animateMotion dur="1.35s" repeatCount="indefinite" begin="0.81s"><mpath href="#dl3"/></animateMotion></circle>
+            <circle r="2.6" fill="url(#dlPt3)"><animateMotion dur="1.35s" repeatCount="indefinite" begin="1.08s"><mpath href="#dl3"/></animateMotion></circle>
+
+            <!-- UL particles — slower -->
+            <circle r="1.6" fill="rgba(237,240,232,0.65)"><animateMotion dur="2.8s" repeatCount="indefinite" begin="0s"><mpath href="#ul3"/></animateMotion></circle>
+            <circle r="1.3" fill="rgba(237,240,232,0.45)"><animateMotion dur="2.8s" repeatCount="indefinite" begin="1.4s"><mpath href="#ul3"/></animateMotion></circle>
+
+            <!-- Satellite -->
+            <circle cx="220" cy="110" r="14" fill="rgba(58,217,255,0.04)"><animate attributeName="r" values="10;22;10" dur="3.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.5;0;0.5" dur="3.5s" repeatCount="indefinite"/></circle>
+            <circle cx="220" cy="110" r="4.5" fill="rgba(255,255,255,0.9)" filter="url(#sG3)"/>
+            <circle cx="220" cy="110" r="7" fill="none" stroke="rgba(58,217,255,0.3)" stroke-width="1"/>
+
+            <!-- Dish -->
+            <rect x="50" y="519" width="24" height="14" rx="3" fill="rgba(237,240,232,0.65)" transform="rotate(-19, 62, 526)"/>
+            <line x1="62" y1="533" x2="62" y2="544" stroke="rgba(237,240,232,0.3)" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+
+          <div class="s3-foot">
+            <div class="s3-again">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+              Transmit Again
+            </div>
+            <div class="s3-adv">▾ Advanced</div>
+          </div>
+          <div class="home-line"></div>
+        </div>
+
+      </div><!-- phone -->
+    </div><!-- phone-wrap -->
+
+  </section>
+  <!-- ═══════════════════════════════════════ -->
+
+  <!-- Fake next section -->
+  <div class="next-section">
+    <span class="wm">Footer</span>
+    <span class="hint">↓ Next Section</span>
+  </div>
+
+</div>
+
+<script>
+  const screens = ['s1','s2','s3'];
+  let current = 0;
+  let autoTimer;
+
+  function switchScreen(idx, clickedItem) {
+    // Update phone screens
+    screens.forEach((id, i) => {
+      const el = document.getElementById(id);
+      if (i === idx) el.classList.add('visible');
+      else el.classList.remove('visible');
+    });
+
+    // Update switcher items
+    document.querySelectorAll('.switcher-item').forEach((item, i) => {
+      if (i === idx) item.classList.add('active');
+      else item.classList.remove('active');
+    });
+
+    current = idx;
+    clearInterval(autoTimer);
+    autoTimer = setInterval(autoAdvance, 5000);
+  }
+
+  function autoAdvance() {
+    const next = (current + 1) % 3;
+    switchScreen(next, document.querySelectorAll('.switcher-item')[next]);
+  }
+
+  // Auto-cycle
+  autoTimer = setInterval(autoAdvance, 5000);
+</script>
+</body>
+</html>

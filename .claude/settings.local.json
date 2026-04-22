@@ -6,7 +6,14 @@
       "Bash(node *)",
       "Bash(mkdir -p /tmp/starlink-design)",
       "Read(//tmp/**)",
-      "Bash(tar xf *)"
+      "Bash(tar xf *)",
+      "Bash(bash *)",
+      "Bash(tasklist /FI \"PID eq 3365\")",
+      "Bash(tasklist)",
+      "Bash(curl -s --connect-timeout 2 http://localhost:49895/section-v3.html)",
+      "Bash(curl -s --connect-timeout 2 http://localhost:49895/)",
+      "Bash(npm run *)",
+      "Bash(npx next *)"
     ]
   }
 }
