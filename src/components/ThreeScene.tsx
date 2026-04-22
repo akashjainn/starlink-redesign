@@ -112,7 +112,7 @@ export default function ThreeScene() {
 
     /* ── EARTH — 3D object-space noise, no UV seam ── */
     const earthGroup = new THREE.Group();
-    earthGroup.position.set(75, -4, 0);
+    earthGroup.position.set(55, -4, 0);
     scene.add(earthGroup);
 
     const EARTH_R = 52;
