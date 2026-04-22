@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import ThreeScene from "@/components/ThreeScene";
+import AppSection from "@/components/AppSection/AppSection";
 
 export default function HomePage() {
   const [address, setAddress] = useState("");
@@ -231,6 +232,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ═══════════ APP SCREENS SECTION ═══════════ */}
+      <AppSection />
 
       {/* ═══════════ FOOTER ═══════════ */}
       <footer className="site-footer">
