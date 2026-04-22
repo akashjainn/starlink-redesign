@@ -42,6 +42,19 @@ export default function AppSection() {
 
   return (
     <section className="app-section" id="app-screens">
+      {/* Phone — render all screens, hide inactive with display:none */}
+      <PhoneFrame>
+        <div style={{ display: activeScreen === 0 ? "block" : "none" }}>
+          <ScreenBeam />
+        </div>
+        <div style={{ display: activeScreen === 1 ? "block" : "none" }}>
+          <ScreenSetup />
+        </div>
+        <div style={{ display: activeScreen === 2 ? "block" : "none" }}>
+          <ScreenAccount />
+        </div>
+      </PhoneFrame>
+
       {/* Copy column */}
       <div className="app-copy">
         <div className="app-eyebrow">
@@ -79,18 +92,6 @@ export default function AppSection() {
         </div>
       </div>
 
-      {/* Phone — render all screens, hide inactive with display:none */}
-      <PhoneFrame>
-        <div style={{ display: activeScreen === 0 ? "block" : "none" }}>
-          <ScreenBeam />
-        </div>
-        <div style={{ display: activeScreen === 1 ? "block" : "none" }}>
-          <ScreenSetup />
-        </div>
-        <div style={{ display: activeScreen === 2 ? "block" : "none" }}>
-          <ScreenAccount />
-        </div>
-      </PhoneFrame>
     </section>
   );
 }

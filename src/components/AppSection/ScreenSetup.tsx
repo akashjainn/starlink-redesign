@@ -55,10 +55,10 @@ export default function ScreenSetup() {
       ))}
 
       {/* Active step label */}
-      <text x="155" y="88" textAnchor="middle"
+      <text x="140" y="88" textAnchor="middle"
         fontFamily="'Bebas Neue', sans-serif" fontSize="40" letterSpacing="0.05em"
         fill="#3ad9ff">CONNECT</text>
-      <text x="155" y="104" textAnchor="middle"
+      <text x="140" y="104" textAnchor="middle"
         fontFamily="DM Sans, sans-serif" fontSize="8" fontWeight="600" letterSpacing="1.4"
         fill="rgba(237,240,232,0.3)">STEP 3 OF 5</text>
 
