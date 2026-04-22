@@ -229,7 +229,7 @@ body {
 .btn-check:hover {
   transform: translateY(-2px);
   background: #FFFF33;
-  box-shadow: 0 6px 28px rgba(232, 224, 0, 0.55);
+  box-shadow: 0 4px 16px rgba(232, 224, 0, 0.28);
 }
 
 .btn-check:active {
@@ -277,7 +277,6 @@ body {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #0a1a0e;
-  box-shadow: 0 2px 10px rgba(232, 224, 0, 0.45);
 }
 
 .plan-name {
@@ -371,7 +370,7 @@ body {
 
 .plan-card.featured .plan-btn:hover {
   background: #FFFF33;
-  box-shadow: 0 4px 20px rgba(232, 224, 0, 0.6);
+  box-shadow: 0 3px 12px rgba(232, 224, 0, 0.28);
 }
 
 /* ── Footer ── */
