@@ -13,7 +13,18 @@
       "Bash(curl -s --connect-timeout 2 http://localhost:49895/section-v3.html)",
       "Bash(curl -s --connect-timeout 2 http://localhost:49895/)",
       "Bash(npm run *)",
-      "Bash(npx next *)"
+      "Bash(npx next *)",
+      "mcp__plugin_figma_figma__get_metadata",
+      "mcp__plugin_figma_figma__generate_figma_design",
+      "Bash(start *)",
+      "Bash(netstat -ano)",
+      "Bash(findstr \":3001\")",
+      "PowerShell(Start-Process \"http://localhost:3001/#figmacapture=46ed58bd-0326-475f-a38c-78601d2359ad&figmaendpoint=https%3A%2F%2Fmcp.figma.com%2Fmcp%2Fcapture%2F46ed58bd-0326-475f-a38c-78601d2359ad%2Fsubmit&figmadelay=2000&figmaselector=%23app-screens\")",
+      "Bash(curl -s http://localhost:3001)",
+      "mcp__plugin_figma_figma__use_figma",
+      "mcp__plugin_figma_figma__get_screenshot",
+      "mcp__plugin_figma_figma__get_libraries",
+      "mcp__plugin_figma_figma__search_design_system"
     ]
   }
 }
