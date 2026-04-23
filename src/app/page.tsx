@@ -28,10 +28,7 @@ export default function HomePage() {
       {/* ═══════════ PAGE 1 — HOME ═══════════ */}
       <section id="page-home" className="page page-home">
         {/* Brand row: STARLINK wordmark + logo mark */}
-        <div
-          className="brand-row anim-text"
-          style={{ position: "absolute", top: 60, left: 90 }}
-        >
+        <div className="brand-row anim-text home-brand">
           <span className="wordmark">STARLINK</span>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -44,12 +41,8 @@ export default function HomePage() {
 
         {/* Headline */}
         <h1
-          className="anim-text-d1"
+          className="anim-text-d1 home-headline"
           style={{
-            position: "absolute",
-            top: 176,
-            left: 90,
-            width: 456,
             fontFamily: "'DM Sans', sans-serif",
             fontSize: "clamp(36px, 3.5vw, 52px)",
             fontWeight: 700,
@@ -62,12 +55,8 @@ export default function HomePage() {
 
         {/* Subline */}
         <p
-          className="anim-text-d2"
+          className="anim-text-d2 home-subline"
           style={{
-            position: "absolute",
-            top: 358,
-            left: 90,
-            width: 591,
             fontFamily: "'DM Sans', sans-serif",
             fontSize: "clamp(18px, 1.9vw, 28px)",
             fontWeight: 400,
@@ -80,14 +69,7 @@ export default function HomePage() {
 
         {/* Nav link stack */}
         <nav
-          className="anim-text-d3"
-          style={{
-            position: "absolute",
-            top: 469,
-            left: 90,
-            display: "flex",
-            flexDirection: "column",
-          }}
+          className="anim-text-d3 home-nav"
           aria-label="Primary actions"
         >
           <a href="#page-get" className="nav-link">Get Starlink</a>

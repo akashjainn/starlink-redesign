@@ -415,6 +415,35 @@ body {
   font-weight: 500;
 }
 
+/* ── Home hero positioned elements ── */
+.home-brand {
+  position: absolute;
+  top: 60px;
+  left: 90px;
+}
+
+.home-headline {
+  position: absolute;
+  top: 176px;
+  left: 90px;
+  width: 456px;
+}
+
+.home-subline {
+  position: absolute;
+  top: 358px;
+  left: 90px;
+  width: 591px;
+}
+
+.home-nav {
+  position: absolute;
+  top: 469px;
+  left: 90px;
+  display: flex;
+  flex-direction: column;
+}
+
 /* ── Entrance animations ── */
 @keyframes fade-slide-in {
   from { opacity: 0; transform: translateX(-28px); }
@@ -446,10 +475,70 @@ body {
   .plans-grid {
     grid-template-columns: 1fr;
     max-width: 400px;
+    margin: 0 auto;
   }
 
   .scroll-indicator {
     left: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-home {
+    display: flex;
+    flex-direction: column;
+    padding: 60px 28px 40px;
+  }
+
+  .home-brand,
+  .home-headline,
+  .home-subline,
+  .home-nav {
+    position: static;
+  }
+
+  .home-brand {
+    margin-bottom: 48px;
+  }
+
+  .home-headline {
+    width: auto;
+    margin-bottom: 32px;
+  }
+
+  .home-subline {
+    width: auto;
+    margin-bottom: 28px;
+  }
+
+  .home-nav {
+    margin-bottom: 32px;
+  }
+
+  .scroll-indicator {
+    position: static;
+    left: auto;
+    bottom: auto;
+    margin-top: auto;
+  }
+
+  .app-section {
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 28px;
+    gap: 48px;
+    min-height: auto;
+  }
+
+  .app-body {
+    max-width: 100%;
+  }
+
+  .site-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 28px 28px;
   }
 }
 
